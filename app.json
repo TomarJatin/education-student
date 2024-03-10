@@ -15,7 +15,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.haxer.education-student"
     },
     "android": {
       "adaptiveIcon": {
@@ -40,7 +41,7 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "2ccc58fa-24ed-485f-850b-b3bbb602cacc"
+        "projectId": "d845adb4-b335-4c5f-b5b9-0ea9f9378b4d"
       }
     }
   }
