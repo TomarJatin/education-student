@@ -159,7 +159,7 @@ export default function Home({ navigation }: any) {
                     }}
                   >
                     <Image
-                      source={require("../../assets/book.svg")}
+                      source={require("../../assets/copy.svg")}
                       style={{
                         width: 28,
                         height: 28,
@@ -182,7 +182,7 @@ export default function Home({ navigation }: any) {
                   activeOpacity={0.5}
                   onPress={() => {
                     // setCourseScreen("base");
-                    navigation.navigate("BaseCourses");
+                    navigation.navigate("SelectedCourse");
                   }}
                   style={{
                     flexDirection: "column",
@@ -198,7 +198,7 @@ export default function Home({ navigation }: any) {
                     }}
                   >
                     <Image
-                      source={require("../../assets/book.svg")}
+                      source={require("../../assets/chat.svg")}
                       style={{
                         width: 28,
                         height: 28,
@@ -221,7 +221,7 @@ export default function Home({ navigation }: any) {
                   activeOpacity={0.5}
                   onPress={() => {
                     // setCourseScreen("base");
-                    navigation.navigate("BaseCourses");
+                    navigation.navigate("Analytics");
                   }}
                   style={{
                     flexDirection: "column",
@@ -237,7 +237,7 @@ export default function Home({ navigation }: any) {
                     }}
                   >
                     <Image
-                      source={require("../../assets/book.svg")}
+                      source={require("../../assets/bar-graph.svg")}
                       style={{
                         width: 28,
                         height: 28,
@@ -260,7 +260,7 @@ export default function Home({ navigation }: any) {
                   activeOpacity={0.5}
                   onPress={() => {
                     // setCourseScreen("base");
-                    navigation.navigate("BaseCourses");
+                    navigation.navigate("Video");
                   }}
                   style={{
                     flexDirection: "column",
@@ -276,7 +276,7 @@ export default function Home({ navigation }: any) {
                     }}
                   >
                     <Image
-                      source={require("../../assets/book.svg")}
+                      source={require("../../assets/video-learning.svg")}
                       style={{
                         width: 28,
                         height: 28,
@@ -299,7 +299,7 @@ export default function Home({ navigation }: any) {
                   activeOpacity={0.5}
                   onPress={() => {
                     // setCourseScreen("base");
-                    navigation.navigate("BaseCourses");
+                    navigation.navigate("Assignment");
                   }}
                   style={{
                     flexDirection: "column",
@@ -315,7 +315,7 @@ export default function Home({ navigation }: any) {
                     }}
                   >
                     <Image
-                      source={require("../../assets/book.svg")}
+                      source={require("../../assets/drawing.svg")}
                       style={{
                         width: 28,
                         height: 28,
@@ -338,7 +338,7 @@ export default function Home({ navigation }: any) {
                   activeOpacity={0.5}
                   onPress={() => {
                     // setCourseScreen("base");
-                    navigation.navigate("BaseCourses");
+                    navigation.navigate("Tests");
                   }}
                   style={{
                     flexDirection: "column",
@@ -354,7 +354,7 @@ export default function Home({ navigation }: any) {
                     }}
                   >
                     <Image
-                      source={require("../../assets/book.svg")}
+                      source={require("../../assets/3d-report.svg")}
                       style={{
                         width: 28,
                         height: 28,
@@ -476,7 +476,7 @@ export default function Home({ navigation }: any) {
           showsVerticalScrollIndicator={false}
         />
       </View>
-      <Navbar />
+      <Navbar navigation={navigation}/>
     </SafeAreaView>
   );
 }

@@ -26,7 +26,7 @@ export default function Navbar({ navigation }: any){
             gap: 30
         }}>
             <TouchableOpacity onPress={() => {
-                navigation.navigate("SelectedCourse")
+                navigation.navigate("Home")
             }} style={{
               flexDirection: "column",
               alignItems: "center"
@@ -42,7 +42,7 @@ export default function Navbar({ navigation }: any){
                 <Text style={{color: Color.textPrim, fontSize: FontSize.medium12pxMed_size}}>Browse</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => {
-                navigation.navigate("Tags")
+                // navigation.navigate("Tags")
             }} style={{
               flexDirection: "column",
               alignItems: "center"

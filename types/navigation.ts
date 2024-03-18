@@ -11,4 +11,8 @@ export type RootStackParamList = {
     Post: undefined;
     SelectedCourse: undefined;
     Tags: undefined;
+    Courses: undefined;
+    Tests: undefined;
+    Analytics: undefined;
+    Video: undefined;
   };

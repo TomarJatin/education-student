@@ -57,7 +57,7 @@ export default function Assignment({ navigation }: any) {
     selectedAssignment,
     selectedTest,
   } = useContext(DataContext) as DataContextType;
-  const [tab, setTab] = useState("video");
+  const [tab, setTab] = useState("assignments");
   const [assignmentName, setAssignmentName] = useState("");
   const [assignmentGrading, setAssignmentGrading] = useState(false);
   const [assignmentSolution, setAssignmentSolution] = useState(false);
@@ -354,115 +354,13 @@ export default function Assignment({ navigation }: any) {
                 <MaterialIcons name="more-vert" size={24} color="black" />
               </TouchableOpacity>
             </View>
-            <ScrollView
-              showsHorizontalScrollIndicator={false}
-              style={{
-                marginTop: 25,
-              }}
-              horizontal={true}
-            >
-              <TouchableOpacity
-                onPress={() => setTab("video")}
-                activeOpacity={0.5}
-                style={{
-                  padding: 8,
-                  backgroundColor:
-                    tab === "video" ? Color.buttonBg : Color.textWhite,
-                  borderRadius: 34,
-                  marginLeft: 20,
-                }}
-              >
-                <Text
-                  style={{
-                    color: tab === "video" ? Color.textWhite : Color.buttonBg,
-                    fontSize: FontSize.medium12pxMed_size,
-                    fontWeight: "500",
-                  }}
-                >
-                  Video
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => setTab("assignments")}
-                activeOpacity={0.5}
-                style={{
-                  padding: 8,
-                  backgroundColor:
-                    tab === "assignments" ? Color.buttonBg : Color.textWhite,
-                  borderRadius: 34,
-                  marginLeft: 15,
-                }}
-              >
-                <Text
-                  style={{
-                    color:
-                      tab === "assignments" ? Color.textWhite : Color.buttonBg,
-                    fontSize: FontSize.medium12pxMed_size,
-                    fontWeight: "500",
-                  }}
-                >
-                  Assignments
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => setTab("tests")}
-                activeOpacity={0.5}
-                style={{
-                  padding: 8,
-                  backgroundColor:
-                    tab === "tests" ? Color.buttonBg : Color.textWhite,
-                  borderRadius: 34,
-                  marginLeft: 20,
-                }}
-              >
-                <Text
-                  style={{
-                    color: tab === "tests" ? Color.textWhite : Color.buttonBg,
-                    fontSize: FontSize.medium12pxMed_size,
-                    fontWeight: "500",
-                  }}
-                >
-                  Tests
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => setTab("notes")}
-                activeOpacity={0.5}
-                style={{
-                  padding: 8,
-                  backgroundColor:
-                    tab === "notes" ? Color.buttonBg : Color.textWhite,
-                  borderRadius: 34,
-                  marginLeft: 20,
-                }}
-              >
-                <Text
-                  style={{
-                    color: tab === "notes" ? Color.textWhite : Color.buttonBg,
-                    fontSize: FontSize.medium12pxMed_size,
-                    fontWeight: "500",
-                  }}
-                >
-                  Notes
-                </Text>
-              </TouchableOpacity>
-            </ScrollView>
           </View>
 
           <FlatList
             data={["1"]}
             renderItem={() => (
               <View style={{ paddingBottom: 400 }}>
-                {tab === "video" && (
-                  <Video
-                    navigation={navigation}
-                    setOpen={setOpen}
-                    setCurrSelectedVideo={setCurrSelectedVideo}
-                    allVideos={allVideos}
-                    fetchAllVideos={fetchAllVideos}
-                    setAllVideos={setAllVideos}
-                  />
-                )}
+                
                 {tab === "assignments" && (
                   <Assignments
                     setCurrSelectedAssignment={setCurrSelectedAssignment}
@@ -487,28 +385,7 @@ export default function Assignment({ navigation }: any) {
                   />
                 )}
 
-                {tab === "tests" && (
-                  <Tests
-                    setCurrSelectedTests={setCurrSelectedTest}
-                    navigation={navigation}
-                    setOpen={setOpen}
-                    allTests={allTests}
-                    fetchAllTests={fetchAllTests}
-                    setAllTests={setAllTests}
-                    setTab={setTab}
-                  />
-                )}
-
-                {tab === "notes" && (
-                  <Notes
-                    setCurrSelectedNotes={setCurrSelectedNotes}
-                    navigation={navigation}
-                    setOpen={setOpen}
-                    allNotes={allNotes}
-                    fetchAllNotes={fetchAllNotes}
-                    setAllNotes={setAllNotes}
-                  />
-                )}
+                
               </View>
             )}
             style={{

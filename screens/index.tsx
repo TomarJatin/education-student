@@ -19,6 +19,10 @@ import Forum from "./Forum";
 import Post from "./Post";
 import SelectedCourse from "./SelectCourse";
 import Tags from "./Tags";
+import Courses from "./Courses";
+import Tests from "./Tests";
+import Analytics from "./Analytics";
+import Video from "./Video";
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -91,6 +95,26 @@ export default function Route() {
           <Stack.Screen
             name="Tags"
             component={Tags}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Courses"
+            component={Courses}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Tests"
+            component={Tests}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Analytics"
+            component={Analytics}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Video"
+            component={Video}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

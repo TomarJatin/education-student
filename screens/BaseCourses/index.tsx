@@ -196,7 +196,7 @@ export default function BaseCourses({ navigation }: any) {
                   fontWeight: "600",
                 }}
               >
-                Add Courses
+                Select Course
               </Text>
             </View>
             <TouchableOpacity
@@ -212,62 +212,7 @@ export default function BaseCourses({ navigation }: any) {
             renderItem={() => (
               <View style={{ paddingBottom: 200 }}>
                 {/* Create Card */}
-                <View
-                  style={{
-                    padding: 20,
-                    borderRadius: 20,
-                    borderColor: Color.border,
-                    borderWidth: 1,
-                    marginTop: 20,
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: Color.textSecondary,
-                      fontSize: FontSize.medium11pxMed_size,
-                      fontWeight: "400",
-                      marginBottom: 20,
-                    }}
-                  >
-                    Add thumbnail for better visibility. Students may find them
-                    appealing.
-                  </Text>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      justifyContent: "flex-end",
-                    }}
-                  >
-                    <TouchableOpacity
-                      onPress={() => setOpen("create course")}
-                      activeOpacity={0.5}
-                      style={{
-                        flexDirection: "row",
-                        gap: 10,
-                        alignItems: "center",
-                        paddingHorizontal: 30,
-                        paddingVertical: 10,
-                        backgroundColor: Color.buttonBg,
-                        borderRadius: 100,
-                      }}
-                    >
-                      <Text
-                        style={{
-                          color: Color.textWhite,
-                          fontSize: FontSize.medium12pxMed_size,
-                          fontWeight: "500",
-                        }}
-                      >
-                        Create new course
-                      </Text>
-                      <MaterialCommunityIcons
-                        name="pencil-outline"
-                        size={16}
-                        color="white"
-                      />
-                    </TouchableOpacity>
-                  </View>
-                </View>
+             
 
                 {/* Manage Card */}
                 <View
@@ -294,7 +239,7 @@ export default function BaseCourses({ navigation }: any) {
                         fontWeight: "600",
                       }}
                     >
-                      Active Courses
+                       Courses
                     </Text>
                     <Text
                       style={{
@@ -303,7 +248,7 @@ export default function BaseCourses({ navigation }: any) {
                         fontWeight: "600",
                       }}
                     >
-                      Manage
+                      Tasks
                     </Text>
                   </View>
 
@@ -359,33 +304,15 @@ export default function BaseCourses({ navigation }: any) {
                             gap: 10,
                           }}
                         >
-                          <TouchableOpacity
+                         <Text
                             style={{
-                              padding: 8,
-                              backgroundColor: Color.buttonCardBg,
-                              borderRadius: 100,
+                              color: Color.buttonBg,
+                              fontWeight: "500",
+                              fontSize: FontSize.medium11pxMed_size,
                             }}
-                            activeOpacity={0.5}
                           >
-                            <Ionicons
-                              name="ios-eye-off-outline"
-                              size={18}
-                              color="black"
-                            />
-                          </TouchableOpacity>
-                          <TouchableOpacity
-                            onPress={() => {
-                              setSelectedCourse({ ...item });
-                              setOpen("more options");
-                            }}
-                            activeOpacity={0.5}
-                          >
-                            <MaterialIcons
-                              name="more-vert"
-                              size={24}
-                              color="black"
-                            />
-                          </TouchableOpacity>
+                           01
+                          </Text>
                         </View>
                       </TouchableOpacity>
                     )}

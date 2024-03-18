@@ -103,34 +103,15 @@ export default function Chapters({ navigation }: any) {
               gap: 10,
             }}
           >
-            <TouchableOpacity
-              onPress={() =>
-                handleStatusChange(item, item.status === 0 ? 1 : 0)
-              }
+            <Text
               style={{
-                padding: 8,
-                backgroundColor: item.status
-                  ? Color.blueButton
-                  : Color.buttonCardBg,
-                borderRadius: 100,
+                color: Color.buttonBg,
+                fontWeight: "500",
+                fontSize: FontSize.medium11pxMed_size,
               }}
-              activeOpacity={0.5}
             >
-              <Ionicons
-                name="ios-eye-off-outline"
-                size={18}
-                color={item.status ? "white" : "black"}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setCurrSelectedChapter({ ...item });
-                setOpen("more options");
-              }}
-              activeOpacity={0.5}
-            >
-              <MaterialIcons name="more-vert" size={24} color="black" />
-            </TouchableOpacity>
+              02
+            </Text>
           </View>
         </TouchableOpacity>
       </ScaleDecorator>
@@ -273,64 +254,6 @@ export default function Chapters({ navigation }: any) {
             renderItem={() => (
               <View style={{paddingBottom: 200}}>
                 {/* Create Card */}
-                {courseScreen === "base" && (
-                  <View
-                    style={{
-                      padding: 20,
-                      borderRadius: 20,
-                      borderColor: Color.border,
-                      borderWidth: 1,
-                      marginTop: 20,
-                    }}
-                  >
-                    <Text
-                      style={{
-                        color: Color.textSecondary,
-                        fontSize: FontSize.medium11pxMed_size,
-                        fontWeight: "400",
-                        marginBottom: 20,
-                      }}
-                    >
-                      Add thumbnail for better visibility. Students may find
-                      them appealing.
-                    </Text>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        justifyContent: "flex-end",
-                      }}
-                    >
-                      <TouchableOpacity
-                        onPress={() => setOpen("create chapter")}
-                        activeOpacity={0.5}
-                        style={{
-                          flexDirection: "row",
-                          gap: 10,
-                          alignItems: "center",
-                          paddingHorizontal: 30,
-                          paddingVertical: 10,
-                          backgroundColor: Color.buttonBg,
-                          borderRadius: 100,
-                        }}
-                      >
-                        <Text
-                          style={{
-                            color: Color.textWhite,
-                            fontSize: FontSize.medium12pxMed_size,
-                            fontWeight: "500",
-                          }}
-                        >
-                          Create new chapter
-                        </Text>
-                        <MaterialCommunityIcons
-                          name="pencil-outline"
-                          size={16}
-                          color="white"
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                )}
 
                 {/* Manage Card */}
                 {courseScreen === "base" && (
@@ -358,7 +281,7 @@ export default function Chapters({ navigation }: any) {
                           fontWeight: "600",
                         }}
                       >
-                        Active Chapters
+                        Chapters
                       </Text>
                       <Text
                         style={{
@@ -367,7 +290,7 @@ export default function Chapters({ navigation }: any) {
                           fontWeight: "600",
                         }}
                       >
-                        Manage
+                        Assignments
                       </Text>
                     </View>
                     <DraggableFlatList
