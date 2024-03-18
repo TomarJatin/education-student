@@ -402,81 +402,197 @@ export default function Home({ navigation }: any) {
                   See All
                 </Text>
               </View>
-              <ScrollView style={{
-                paddingVertical: 20
-              }} showsHorizontalScrollIndicator={false} horizontal>
-                {[1, 2, 3, 4, 5,].map((item, index ) => (
-                  <View key={index} style={{
-                  width: 220,
-                  backgroundColor: Color.cardBg,
-                  borderRadius: 20,
-                  marginRight: 20
-                }}>
-                <Image
-                  style={{
-                    width: "100%",
-                    height: 90,
-                    borderTopLeftRadius: 20,
-                    borderTopRightRadius: 20
-                  }}
-                  contentFit="cover"
-                  source={require("../../assets/banner.png")}
-                />
-                <View style={{
-                  width: "100%",
-                  flexDirection: "column",
-                  alignItems: "flex-end",
-                }}>
-                <Image
-                  style={{
-                    width: 45,
-                    height: 45,
-                    borderRadius: 23,
-                    marginRight: 20,
-                    marginTop: -20
-                  }}
-                  contentFit="cover"
-                  source={require("../../assets/play.png")}
-                />
-                </View>
-                <View style={{
-                  paddingHorizontal: 15,
-                  paddingBottom: 15,
-                  flexDirection: "column",
-                  gap: 5,
+              <ScrollView
+                style={{
+                  paddingVertical: 20,
+                }}
+                showsHorizontalScrollIndicator={false}
+                horizontal
+              >
+                {[1].map((item, index) => (
+                  <View
+                    key={index}
+                    style={{
+                      width: 220,
+                      backgroundColor: Color.cardBg,
+                      borderRadius: 20,
+                      marginRight: 20,
+                    }}
+                  >
+                    <Image
+                      style={{
+                        width: "100%",
+                        height: 90,
+                        borderTopLeftRadius: 20,
+                        borderTopRightRadius: 20,
+                      }}
+                      contentFit="cover"
+                      source={require("../../assets/banner.png")}
+                    />
+                    <View
+                      style={{
+                        width: "100%",
+                        flexDirection: "column",
+                        alignItems: "flex-end",
+                      }}
+                    >
+                      <TouchableOpacity 
+                       delayPressIn={5}
+                       onPress={() => {
+                        navigation.navigate("Testscreen");
+                      }}
+                      >
+                        <Image
+                          style={{
+                            width: 45,
+                            height: 45,
+                            borderRadius: 23,
+                            marginRight: 20,
+                            marginTop: -20,
+                          }}
+                          contentFit="cover"
+                          source={require("../../assets/play.png")}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                    <View
+                      style={{
+                        paddingHorizontal: 15,
+                        paddingBottom: 15,
+                        flexDirection: "column",
+                        gap: 5,
+                      }}
+                    >
+                      <Text
+                        style={{
+                          fontSize: FontSize.medium14pxMed_size,
+                          color: Color.textPrim,
+                          fontWeight: "600",
+                        }}
+                      >
+                        Tests
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: FontSize.medium12pxMed_size,
+                          color: Color.textPrim,
+                          fontWeight: "400",
+                        }}
+                      >
+                        1 Test Starting in
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: FontSize.medium12pxMed_size,
+                          color: Color.textPrim,
+                          fontWeight: "400",
+                        }}
+                      >
+                        4 upcoming
+                      </Text>
+                    </View>
+                  </View>
                   
-                }}>
-                  <Text style={{
-                      fontSize: FontSize.medium14pxMed_size,
-                      color: Color.textPrim,
-                      fontWeight: "600",
-                    }}>Tests</Text>
-                  <Text
-                    style={{
-                      fontSize: FontSize.medium12pxMed_size,
-                      color: Color.textPrim,
-                      fontWeight: "400",
-                    }}>
-                      1 Test Starting in
-                    </Text>
-                    <Text
-                    style={{
-                      fontSize: FontSize.medium12pxMed_size,
-                      color: Color.textPrim,
-                      fontWeight: "400",
-                    }}>
-                      4 upcoming
-                    </Text>
-                </View>
-                </View>
                 ))}
+                {[2].map((item, index) => (
+                  <View
+                    key={index}
+                    style={{
+                      width: 220,
+                      backgroundColor: Color.cardBg,
+                      borderRadius: 20,
+                      marginRight: 20,
+                    }}
+                  >
+                    <Image
+                      style={{
+                        width: "100%",
+                        height: 90,
+                        borderTopLeftRadius: 20,
+                        borderTopRightRadius: 20,
+                      }}
+                      contentFit="cover"
+                      source={require("../../assets/assignment.svg")}
+                    />
+                    <View
+                      style={{
+                        width: "100%",
+                        flexDirection: "column",
+                        alignItems: "flex-end",
+                      }}
+                    >
+                      <TouchableOpacity 
+                       delayPressIn={5}
+                       onPress={() => {
+                        navigation.navigate("SubmitAssignement");
+                      }}
+                      >
+                        <Image
+                          style={{
+                            width: 45,
+                            height: 45,
+                            borderRadius: 23,
+                            marginRight: 20,
+                            marginTop: -20,
+                          }}
+                          contentFit="cover"
+                          source={require("../../assets/play.png")}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                    <View
+                      style={{
+                        paddingHorizontal: 15,
+                        paddingBottom: 15,
+                        flexDirection: "column",
+                        gap: 5,
+                      }}
+                    >
+                      <Text
+                        style={{
+                          fontSize: FontSize.medium14pxMed_size,
+                          color: Color.textPrim,
+                          fontWeight: "600",
+                        }}
+                      >
+                        Assignements
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: FontSize.medium12pxMed_size,
+                          color: Color.textPrim,
+                          fontWeight: "400",
+                        }}
+                      >
+                        2 Pending
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: FontSize.medium12pxMed_size,
+                          color: Color.textPrim,
+                          fontWeight: "400",
+                        }}
+                      >
+                        4 upcoming
+                      </Text>
+                    </View>
+                  </View>
+                  
+                ))}
+                
+                
               </ScrollView>
             </View>
+
+
+
+/////assinment
+
           )}
           showsVerticalScrollIndicator={false}
         />
       </View>
-      <Navbar navigation={navigation}/>
+      <Navbar navigation={navigation} />
     </SafeAreaView>
   );
 }
