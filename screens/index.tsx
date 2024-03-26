@@ -22,6 +22,10 @@ import Tags from "./Tags";
 import Testscreen from "./Testscreen";
 import SubmitAssignement from "./SubmitAssignement";
 import Browsescreen from "./Browsescreen";
+import Video from "./Video";
+import Tests from "./Tests";
+import Analytics from "./Analytics";
+import VideoComponent from "./Assignment/Video";
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -110,6 +114,26 @@ export default function Route() {
             name="Browsescreen"
             component={Browsescreen}
             options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Video"
+            component={Video}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Tests"
+            component={Tests}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+          name="Analytics"
+          component={Analytics}
+          options={{headerShown:false}}
+          />
+          <Stack.Screen
+          name="VideoComponent"
+          component={VideoComponent}
+          options={{headerShown:false}}
           />
 
         </Stack.Navigator>

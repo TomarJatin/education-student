@@ -44,6 +44,33 @@ export default function BaseCourses({ navigation }: any) {
   const [discountPrice, setDiscountPrice] = useState("");
   const [communityDisplay, setCommunityDisplay] = useState(false);
 
+
+
+  const dummyCourses = [
+    {
+      _id: "1",
+      courseName: "Course 1",
+      courseCode: "C001",
+      courseIcon: "https://example.com/course1.jpg",
+    },
+    {
+      _id: "2",
+      courseName: "Course 2",
+      courseCode: "C002",
+      courseIcon: "https://example.com/course2.jpg",
+    },
+    {
+      _id: "3",
+      courseName: "Course 3",
+      courseCode: "C003",
+      courseIcon: "https://example.com/course3.jpg",
+    },
+  ];
+
+
+
+
+
   const handleCreateCourse = async () => {
     console.log("clicked");
     if (courseCode === "" || courseName === "" || !image) {
@@ -253,7 +280,7 @@ export default function BaseCourses({ navigation }: any) {
                   </View>
 
                   <FlatList
-                    data={allCourses}
+                    data={dummyCourses}
                     renderItem={({ item, index }) => (
                       <TouchableOpacity
                         onPress={() => {

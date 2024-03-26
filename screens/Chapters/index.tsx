@@ -45,6 +45,13 @@ export default function Chapters({ navigation }: any) {
   const [image, setImage] = useState<any>(null);
   const [updateChapter, setUpdateChapter] = useState(false);
 
+  const dummyData = [
+    {
+      id: "01",
+      chapterName: "chemestry",
+    },
+  ];
+
   const renderItem = ({
     item,
     drag,
@@ -157,7 +164,7 @@ export default function Chapters({ navigation }: any) {
   const handleStatusChange = async (item: ChapterType, status: number) => {
     let _allChapters = allChapters;
     const index = allChapters.findIndex((chapter) => chapter === item);
-    console.log("index: ", index)
+    console.log("index: ", index);
     _allChapters[index].status = status;
     setAllChapters([..._allChapters]);
     const data = JSON.stringify({ ...item, status: status });
@@ -252,7 +259,7 @@ export default function Chapters({ navigation }: any) {
           <FlatList
             data={["1"]}
             renderItem={() => (
-              <View style={{paddingBottom: 200}}>
+              <View style={{ paddingBottom: 200 }}>
                 {/* Create Card */}
 
                 {/* Manage Card */}
@@ -294,7 +301,7 @@ export default function Chapters({ navigation }: any) {
                       </Text>
                     </View>
                     <DraggableFlatList
-                      data={allChapters}
+                      data={dummyData}
                       renderItem={renderItem}
                       onDragEnd={({ data }) => {
                         setAllChapters(data);
