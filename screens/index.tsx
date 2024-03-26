@@ -19,10 +19,13 @@ import Forum from "./Forum";
 import Post from "./Post";
 import SelectedCourse from "./SelectCourse";
 import Tags from "./Tags";
-import Courses from "./Courses";
+import Testscreen from "./Testscreen";
+import SubmitAssignement from "./SubmitAssignement";
+import Browsescreen from "./Browsescreen";
+import Video from "./Video";
 import Tests from "./Tests";
 import Analytics from "./Analytics";
-import Video from "./Video";
+import VideoComponent from "./Assignment/Video";
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -97,9 +100,24 @@ export default function Route() {
             component={Tags}
             options={{ headerShown: false }}
           />
+           <Stack.Screen
+            name="Testscreen"
+            component={Testscreen}
+            options={{ headerShown: false }}
+          />
           <Stack.Screen
-            name="Courses"
-            component={Courses}
+            name="SubmitAssignement"
+            component={SubmitAssignement}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Browsescreen"
+            component={Browsescreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Video"
+            component={Video}
             options={{ headerShown: false }}
           />
           <Stack.Screen
@@ -108,15 +126,16 @@ export default function Route() {
             options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="Analytics"
-            component={Analytics}
-            options={{ headerShown: false }}
+          name="Analytics"
+          component={Analytics}
+          options={{headerShown:false}}
           />
           <Stack.Screen
-            name="Video"
-            component={Video}
-            options={{ headerShown: false }}
+          name="VideoComponent"
+          component={VideoComponent}
+          options={{headerShown:false}}
           />
+
         </Stack.Navigator>
       ) : (
         <Stack.Navigator initialRouteName="Home">
