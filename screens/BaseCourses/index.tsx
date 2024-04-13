@@ -280,7 +280,7 @@ export default function BaseCourses({ navigation }: any) {
                   </View>
 
                   <FlatList
-                    data={dummyCourses}
+                    data={allCourses}
                     renderItem={({ item, index }) => (
                       <TouchableOpacity
                         onPress={() => {

@@ -89,7 +89,7 @@ export const getAllAssignments = async (
   axios({
     method: "get",
     maxBodyLength: Infinity,
-    url: `${BaseURL}/api/assignment/instructor/assignments?chapterId=${chapterId}&limit=${limit}&skip=${skip}&order=${order}&status=${assignmentStatus}`,
+    url: `${BaseURL}/api/assignment/student/assignments?chapterId=${chapterId}&limit=${limit}&skip=${skip}&order=${order}&status=${assignmentStatus}`,
     headers: {
       Authorization: "Bearer " + accessToken,
     },

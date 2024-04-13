@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "483541033650",
+    "project_id": "education-student-aa9e3",
+    "storage_bucket": "education-student-aa9e3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:483541033650:android:62242d73662398c49c9fab",
+        "android_client_info": {
+          "package_name": "com.haexr.education"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "483541033650-325eohifrvriu29ug2cd6cmnvfcpilp2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.haexr.education",
+            "certificate_hash": "04ff8739a7a3eff7c2caf554093105da5416ef7a"
+          }
+        },
+        {
+          "client_id": "483541033650-lktv0fh2td9mfgi7qvu298rjm4pqiggu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.haexr.education",
+            "certificate_hash": "fd7f8204e153db88ee6f7cfb2d09283099956ae8"
+          }
+        },
+        {
+          "client_id": "483541033650-p1qmgvgu9i4r9t4lbqe2c7ru3ehcbjum.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgHzVUTagQ9C2OVOR5qpciAAKOAlLV8TE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "483541033650-p1qmgvgu9i4r9t4lbqe2c7ru3ehcbjum.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

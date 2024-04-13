@@ -83,14 +83,10 @@ export default function Assignment({ navigation }: any) {
   const [allAssignments, setAllAssignments] = useState<AssignmentsType[]>([]);
   const [allQuestions, setAllQuestions] = useState<QuestionType[]>([]);
   const [selectedCurrQuestionIdx, setSelectedCurrQuestionIdx] = useState(-1);
-  const [allNotes, setAllNotes] = useState<NoteType[]>([]);
-  const [allTests, setAllTests] = useState<TestType[]>([]);
-  const [allVideos, setAllVideos] = useState<VideoType[]>([]);
+
   const [notesFile, setNotesFile] = useState<any>(null);
 
 
-      //popup question
-  const [isQuestionModalVisible, setIsQuestionModalVisible] = useState(false);
   const [videoTime, setVideoTime] = useState(0);
 
   useEffect(() => {
@@ -101,150 +97,11 @@ export default function Assignment({ navigation }: any) {
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    if (videoTime === 3) {
-      setIsQuestionModalVisible(true);
-    }
-  }, [videoTime]);
-
-  const handleResumeVideo = () => {
-    setIsQuestionModalVisible(false);
-  };
-
-
-
-// Dummy data for assignments
-const dummyAssignments= [
-  {
-    _id: "1",
-    assignmentName: "Assignment 1",
-    assignmentGrading: false,
-    assignmentSolution: false,
-  },
-  {
-    _id: "2",
-    assignmentName: "Assignment 2",
-    assignmentGrading: true,
-    assignmentSolution: true,
-  },
-];
-
-// Dummy data for tests
-const dummyTests = [
-  {
-    _id: "3",
-    testName: "Test 1",
-    testGrading: false,
-    testSolution: false,
-  },
-  {
-    _id: "4",
-    testName: "Test 2",
-    testGrading: true,
-    testSolution: true,
-  },
-];
-
-// Dummy data for notes
-const dummyNotes = [
-  {
-    _id: "5",
-    noteName: "Note 1",
-    noteType: "Type 1",
-    noteDownload: true,
-    noteUrl: "https://example.com/note1.pdf",
-  },
-  {
-    _id: "6",
-    noteName: "Note 2",
-    noteType: "Type 2",
-    noteDownload: false,
-    noteUrl: "https://example.com/note2.pdf",
-  },
-];
-
-
-
-const dummyQuestions = [
-  {
-    _id: "7",
-    answer: "A",
-    askForExplaination: "true",
-    assignmentId: "123",
-    correct: "A",
-    explainationType: "text",
-    incorrect: "B",
-    options: [
-      { image: "", text: "Option A" },
-      { image: "", text: "Option B" },
-      { image: "", text: "Option C" },
-      { image: "", text: "Option D" },
-    ],
-    question: {
-      image: "",
-      text: "What is 2 + 2?",
-    },
-    questionLevel: "easy",
-    questionType: "multiple_choice",
-    solution: {
-      image: "",
-      text: "2 + 2 = 4",
-    },
-    status: 1,
-  },
   
-];
 
 
-const dummyVideos = [
-  {
-    _id: "8",
-    videoTitle: "Video 1",
-    videoURL: "https://www.youtube.com/embed/EOampe5_ONM?si=Y1JO_Mp5rpPBqRfp",
-    thumbnailURL: "https://example.com/thumbnail1.jpg",
-  },
-  {
-    _id: "9",
-    videoTitle: "Video 2",
-    videoURL: "https://www.youtube.com/embed/EOampe5_ONM?si=Y1JO_Mp5rpPBqRfp",
-    thumbnailURL: "https://example.com/thumbnail2.jpg",
-  },
-];
-
-const openVideoModal = () => {
-  setOpen("more video"); // Set the value of open to "more video"
-};
 
 
-useEffect(() => {
-  setAllAssignments(dummyAssignments);
-  setAllTests(dummyTests);
-  setAllNotes(dummyNotes);
-  setAllQuestions(dummyQuestions);
-  setAllVideos(dummyVideos);
-}, []);
-
-
-  const fetchAllVideos = () => {
-    if (!selectedChapter) {
-      return;
-    }
-    getAllVideos(selectedChapter?._id, 10, 0, "asc", 10, setAllVideos);
-  };
-
-  const fetchAllTests = () => {
-    if (!selectedChapter) {
-      return;
-    }
-    getAllTests(selectedChapter?._id, 10, 0, "asc", 10, setAllTests);
-  };
-
-  const fetchAllNotes = () => {
-    if (!selectedChapter) {
-      return;
-    }
-    getAllNotes(selectedChapter?._id, 10, 0, "asc", 10, setAllNotes);
-  };
 
   const fetchAllQuestions = () => {
     if (selectedAssignment) {
@@ -325,14 +182,12 @@ useEffect(() => {
     else{
       await handleAddNotes(data);
     }
-    fetchAllNotes();
     setOpen("");
   };
 
   const handleDeleteVideo = async () => {
     if (currSelectedVideo) {
       await deleteVideo(currSelectedVideo?._id);
-      fetchAllVideos();
       setOpen("");
     }
   };
@@ -357,7 +212,6 @@ useEffect(() => {
   const DeleteNote = async () => {
     if (currSelectedNotes) {
       await handleDeleteNotes(currSelectedNotes?._id);
-      fetchAllNotes();
       setOpen("");
     }
   };
@@ -365,7 +219,6 @@ useEffect(() => {
   const DeleteTest = async () => {
     if (currSelectedTest) {
       await handleDeleteTests(currSelectedTest?._id);
-      fetchAllTests();
       setOpen("");
     }
   };
@@ -434,7 +287,6 @@ useEffect(() => {
     else{
       await handleAddTests(data);
     }
-    fetchAllTests();
     setOpen("");
   };
 

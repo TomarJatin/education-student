@@ -1,1 +1,1 @@
-export const BaseURL = 'https://education-backend-go.onrender.com'
+export const BaseURL = 'https://education.closm.com'

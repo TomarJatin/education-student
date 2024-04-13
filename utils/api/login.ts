@@ -14,14 +14,14 @@ export const handleLogin = async (
   });
   axios({
     method: "post",
-    url: "https://education-backend-go.onrender.com/api/auth/instructor/local/login",
+    url: BaseURL + "/api/auth/instructor/local/login",
     headers: {
       "Content-Type": "application/json",
     },
     data: data,
   })
     .then(async (res) => {
-      if(res.data?.data){
+      if (res.data?.data) {
         Toast.show(JSON.stringify(res.data?.data), Toast.LONG);
       }
       if (res.data?.data?.refreshToken) {
@@ -37,7 +37,7 @@ export const handleLogin = async (
     })
     .catch((err) => {
       console.log("err: ", err, err.response.data.data.error);
-      if(err.response.data.data.error){
+      if (err.response.data.data.error) {
         Toast.show(err.response.data.data.error, Toast.LONG);
       }
     });
@@ -52,7 +52,7 @@ export const checkRefreshToken = async () => {
     axios({
       method: "post",
       maxBodyLength: Infinity,
-      url: BaseURL+"/api/auth/token/refresh",
+      url: BaseURL + "/api/auth/token/refresh",
       headers: {
         "Content-Type": "application/json",
       },
@@ -61,7 +61,7 @@ export const checkRefreshToken = async () => {
       }),
     })
       .then(async (res) => {
-        if(res.data?.data){
+        if (res.data?.data) {
           Toast.show(JSON.stringify(res.data?.data), Toast.LONG);
         }
         if (res.data?.data?.refreshToken) {
@@ -84,10 +84,56 @@ export const checkRefreshToken = async () => {
       })
       .catch((err) => {
         console.log("error: ", err);
-        if(err.response.data.data.error){
-            Toast.show(err.response.data.data.error, Toast.LONG);
-          }
+        if (err.response.data.data.error) {
+          Toast.show(err.response.data.data.error, Toast.LONG);
+        }
         return false;
+      });
+  }
+};
+
+export const verifyGoogleIdToken = async (token: string) => {
+  console.log("verifing google token: ")
+  let _data = JSON.stringify({
+    token: token,
+    vendorCode: "DLVBC",
+    country: "IN",
+  });
+
+  if (token) {
+    axios({
+      method: "post",
+      maxBodyLength: Infinity,
+      url: `${BaseURL}/api/auth/user/google/login`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: _data,
+    })
+      .then(async (res) => {
+        console.log("res.........: ", res.data);
+        if (res.data?.data?.refreshToken) {
+          await AsyncStorage.setItem(
+            "refreshToken",
+            res.data?.data?.refreshToken
+          );
+        }
+        if (res.data?.data?.accessToken) {
+          await AsyncStorage.setItem(
+            "accessToken",
+            res.data?.data?.accessToken
+          );
+        }
+      })
+      .catch((err) => {
+        console.log("err: ", err);
+        if (err?.response?.data?.data?.error) {
+          Toast.show(err?.response?.data?.data?.error, Toast.LONG, {
+            textColor: "#ffffff",
+          });
+        } else {
+          Toast.show("Try google signIn again", Toast.LONG);
+        }
       });
   }
 };

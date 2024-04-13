@@ -85,13 +85,13 @@ export const getAllChapter = async (
   axios({
     method: "get",
     maxBodyLength: Infinity,
-    url: `${BaseURL}/api/chapter/instructor/chapters?courseId=${courseId}&limit=${limit}&skip=${skip}&order=${order}&status=${courseStatus}`,
+    url: `${BaseURL}/api/chapter/student/chapters?courseId=${courseId}&limit=${limit}&skip=${skip}&order=${order}&status=${courseStatus}`,
     headers: {
       Authorization: "Bearer " + accessToken,
     },
   })
     .then((res) => {
-      console.log("res: ", res.data);
+      console.log("res: ", res.data, `${BaseURL}/api/chapter/student/chapters?courseId=${courseId}&limit=${limit}&skip=${skip}&order=${order}&status=${courseStatus}`);
       if(res.data?.data){
         Toast.show(JSON.stringify(res.data?.data), Toast.LONG);
       }

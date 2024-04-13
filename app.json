@@ -26,7 +26,8 @@
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.haexr.education"
+      "package": "com.haexr.education",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -37,7 +38,18 @@
         {
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
-      ]
+      ],
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ],
+      "expo-apple-authentication",
+      "@react-native-firebase/app",
+      "@react-native-google-signin/google-signin"
     ],
     "extra": {
       "eas": {

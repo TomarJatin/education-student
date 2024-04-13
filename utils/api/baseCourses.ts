@@ -105,7 +105,7 @@ export const getAllCourse = async (
   axios({
     method: "get",
     maxBodyLength: Infinity,
-    url: `${BaseURL}/api/course/instructor/courses?courseType=${courseType}&limit=${limit}&skip=${skip}&order=${order}&status=${courseStatus}`,
+    url: `${BaseURL}/api/courseManagement/course/student?limit=${limit}&skip=${skip}&order=${order}&status=${courseStatus}`,
     headers: {
       Authorization: "Bearer " + accessToken,
     },

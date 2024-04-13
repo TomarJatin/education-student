@@ -301,7 +301,7 @@ export default function Chapters({ navigation }: any) {
                       </Text>
                     </View>
                     <DraggableFlatList
-                      data={dummyData}
+                      data={allChapters}
                       renderItem={renderItem}
                       onDragEnd={({ data }) => {
                         setAllChapters(data);

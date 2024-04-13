@@ -260,7 +260,7 @@ export default function Home({ navigation }: any) {
                   activeOpacity={0.5}
                   onPress={() => {
                     // setCourseScreen("base");
-                    navigation.navigate("Video");
+                    navigation.navigate("VideoComponent");
                   }}
                   style={{
                     flexDirection: "column",
