@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Color, FontSize } from "../../GlobalStyles";
 import { Image } from "expo-image";
@@ -39,8 +38,6 @@ import {
   handleDeleteTests,
   handleUpdateTests,
 } from "../../utils/api/tests";
-import AsyncStorage from "@react-native-async-storage/async-storage"; 
-
 import AddTest from "../../components/Models/AddTest";
 import { TestType } from "../../types/test";
 import Tests from "../../components/Assignment/Tests";
@@ -60,7 +57,7 @@ export default function Assignment({ navigation }: any) {
     selectedAssignment,
     selectedTest,
   } = useContext(DataContext) as DataContextType;
-  const [tab, setTab] = useState("assignments");
+  const [tab, setTab] = useState((selectedChapter?.chapterComponent && selectedChapter?.chapterComponent?.length > 0) ?  selectedChapter?.chapterComponent[0]: "");
   const [assignmentName, setAssignmentName] = useState("");
   const [assignmentGrading, setAssignmentGrading] = useState(false);
   const [assignmentSolution, setAssignmentSolution] = useState(false);
@@ -83,25 +80,31 @@ export default function Assignment({ navigation }: any) {
   const [allAssignments, setAllAssignments] = useState<AssignmentsType[]>([]);
   const [allQuestions, setAllQuestions] = useState<QuestionType[]>([]);
   const [selectedCurrQuestionIdx, setSelectedCurrQuestionIdx] = useState(-1);
-
+  const [allNotes, setAllNotes] = useState<NoteType[]>([]);
+  const [allTests, setAllTests] = useState<TestType[]>([]);
+  const [allVideos, setAllVideos] = useState<VideoType[]>([]);
   const [notesFile, setNotesFile] = useState<any>(null);
 
+  const fetchAllVideos = () => {
+    if (!selectedChapter) {
+      return;
+    }
+    getAllVideos(selectedChapter?._id, 10, 0, "asc", 10, setAllVideos);
+  };
 
-  const [videoTime, setVideoTime] = useState(0);
+  const fetchAllTests = () => {
+    if (!selectedChapter) {
+      return;
+    }
+    getAllTests(selectedChapter?._id, 10, 0, "asc", 10, setAllTests);
+  };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setVideoTime((prevTime) => prevTime + 1);
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  
-
-
-
-
+  const fetchAllNotes = () => {
+    if (!selectedChapter) {
+      return;
+    }
+    getAllNotes(selectedChapter?._id, 10, 0, "asc", 10, setAllNotes);
+  };
 
   const fetchAllQuestions = () => {
     if (selectedAssignment) {
@@ -143,6 +146,7 @@ export default function Assignment({ navigation }: any) {
 
   const handleUpdateClick = () => {
     console.log("update clicked", currSelectedVideo);
+    setOpen("");
     if (currSelectedVideo) {
       setSelectedVideo(currSelectedVideo);
       navigation.navigate("AddVideo");
@@ -182,12 +186,14 @@ export default function Assignment({ navigation }: any) {
     else{
       await handleAddNotes(data);
     }
+    fetchAllNotes();
     setOpen("");
   };
 
   const handleDeleteVideo = async () => {
     if (currSelectedVideo) {
       await deleteVideo(currSelectedVideo?._id);
+      fetchAllVideos();
       setOpen("");
     }
   };
@@ -212,6 +218,7 @@ export default function Assignment({ navigation }: any) {
   const DeleteNote = async () => {
     if (currSelectedNotes) {
       await handleDeleteNotes(currSelectedNotes?._id);
+      fetchAllNotes();
       setOpen("");
     }
   };
@@ -219,6 +226,7 @@ export default function Assignment({ navigation }: any) {
   const DeleteTest = async () => {
     if (currSelectedTest) {
       await handleDeleteTests(currSelectedTest?._id);
+      fetchAllTests();
       setOpen("");
     }
   };
@@ -287,6 +295,7 @@ export default function Assignment({ navigation }: any) {
     else{
       await handleAddTests(data);
     }
+    fetchAllTests();
     setOpen("");
   };
 
@@ -298,7 +307,6 @@ export default function Assignment({ navigation }: any) {
             minHeight: Dimensions.get("window").height,
             backgroundColor: Color.textWhite,
           }}
-          
         >
           {/* Topbar */}
           <View
@@ -347,15 +355,58 @@ export default function Assignment({ navigation }: any) {
                 <MaterialIcons name="more-vert" size={24} color="black" />
               </TouchableOpacity>
             </View>
+            <ScrollView
+              showsHorizontalScrollIndicator={false}
+              style={{
+                marginTop: 25,
+              }}
+              horizontal={true}
+            >
+              
+              {
+                selectedChapter?.chapterComponent?.map((item, index) => (
+                  <TouchableOpacity
+                  key={index}
+                onPress={() => setTab(item)}
+                activeOpacity={0.5}
+                style={{
+                  padding: 8,
+                  backgroundColor:
+                    tab === item ? Color.buttonBg : Color.textWhite,
+                  borderRadius: 34,
+                  marginLeft: 20,
+                }}
+              >
+                <Text
+                  style={{
+                    color: tab === item ? Color.textWhite : Color.buttonBg,
+                    fontSize: FontSize.medium12pxMed_size,
+                    fontWeight: "500",
+                  }}
+                >
+                  {item}
+                </Text>
+              </TouchableOpacity>
+                ))
+              }
+            </ScrollView>
           </View>
 
           <FlatList
             data={["1"]}
             renderItem={() => (
               <View style={{ paddingBottom: 400 }}>
-                
-                
-                {tab === "assignments" && (
+                {tab === "Videos" && (
+                  <Video
+                    navigation={navigation}
+                    setOpen={setOpen}
+                    setCurrSelectedVideo={setCurrSelectedVideo}
+                    allVideos={allVideos}
+                    fetchAllVideos={fetchAllVideos}
+                    setAllVideos={setAllVideos}
+                  />
+                )}
+                {tab === "Assignments" && (
                   <Assignments
                     setCurrSelectedAssignment={setCurrSelectedAssignment}
                     navigation={navigation}
@@ -379,8 +430,28 @@ export default function Assignment({ navigation }: any) {
                   />
                 )}
 
-              
-                
+                {tab === "Tests" && (
+                  <Tests
+                    setCurrSelectedTests={setCurrSelectedTest}
+                    navigation={navigation}
+                    setOpen={setOpen}
+                    allTests={allTests}
+                    fetchAllTests={fetchAllTests}
+                    setAllTests={setAllTests}
+                    setTab={setTab}
+                  />
+                )}
+
+                {tab === "Notes" && (
+                  <Notes
+                    setCurrSelectedNotes={setCurrSelectedNotes}
+                    navigation={navigation}
+                    setOpen={setOpen}
+                    allNotes={allNotes}
+                    fetchAllNotes={fetchAllNotes}
+                    setAllNotes={setAllNotes}
+                  />
+                )}
               </View>
             )}
             style={{
@@ -390,9 +461,6 @@ export default function Assignment({ navigation }: any) {
           />
         </View>
       </SafeAreaView>
-
-   
-
       <Modal
         isVisible={open !== ""}
         onSwipeComplete={() => setOpen("")}
