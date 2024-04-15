@@ -1,7 +1,7 @@
 export type RootStackParamList = {
     Home: undefined;
     Login: undefined;
-    BaseCourses: undefined;
+    Courses: undefined;
     Assignment: undefined;
     AddQuestion: undefined;
     Chapters: undefined;
@@ -11,8 +11,11 @@ export type RootStackParamList = {
     Post: undefined;
     SelectedCourse: undefined;
     Tags: undefined;
-    Courses: undefined;
     Tests: undefined;
     Analytics: undefined;
     Video: undefined;
+    Testscreen: undefined;
+    Browsescreen: undefined;
+    VideoComponent: undefined;
+    SubmitAssignement: undefined;
   };

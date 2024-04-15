@@ -8,7 +8,6 @@ import Home from "./Home";
 import { AuthContext } from "../contexts";
 import { AuthContextType } from "../types/context";
 import Login from "./Login";
-import BaseCourses from "./BaseCourses";
 import Assignment from "./Assignment";
 import AddQuestion from "./AddQuestion";
 import Chapters from "./Chapters";
@@ -26,20 +25,16 @@ import Video from "./Video";
 import Tests from "./Tests";
 import Analytics from "./Analytics";
 import VideoComponent from "./Assignment/Video";
+import Courses from "./Courses";
 
 const Stack = createStackNavigator<RootStackParamList>();
 
 export default function Route() {
   const { auth, setAuth } = React.useContext(AuthContext) as AuthContextType;
 
-  // const handleRefreshToken = async() => {
-  //   const res = await checkRefreshToken();
-  //   setAuth(res);
-  // }
-
-  // useEffect(() => {
-  //   handleRefreshToken();
-  // }, [])
+  useEffect(() => {
+    checkRefreshToken(setAuth);
+  }, [])
 
   return (
     <NavigationContainer>
@@ -51,8 +46,8 @@ export default function Route() {
             options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="BaseCourses"
-            component={BaseCourses}
+            name="Courses"
+            component={Courses}
             options={{ headerShown: false }}
           />
           <Stack.Screen

@@ -143,7 +143,7 @@ export default function Home({ navigation }: any) {
                   activeOpacity={0.5}
                   onPress={() => {
                     // setCourseScreen("base");
-                    navigation.navigate("BaseCourses");
+                    navigation.navigate("Courses");
                   }}
                   style={{
                     flexDirection: "column",

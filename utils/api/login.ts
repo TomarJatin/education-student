@@ -43,7 +43,7 @@ export const handleLogin = async (
     });
 };
 
-export const checkRefreshToken = async () => {
+export const checkRefreshToken = async (setAuth: any) => {
   const refreshToken = await AsyncStorage.getItem("refreshToken");
   if (refreshToken === null) {
     console.log("no refresh token here");
@@ -52,7 +52,7 @@ export const checkRefreshToken = async () => {
     axios({
       method: "post",
       maxBodyLength: Infinity,
-      url: BaseURL + "/api/auth/token/refresh",
+      url: BaseURL+"/api/auth/token/refresh",
       headers: {
         "Content-Type": "application/json",
       },
@@ -61,33 +61,31 @@ export const checkRefreshToken = async () => {
       }),
     })
       .then(async (res) => {
-        if (res.data?.data) {
+        if(res.data?.data){
           Toast.show(JSON.stringify(res.data?.data), Toast.LONG);
+          setAuth(true);
         }
         if (res.data?.data?.refreshToken) {
           await AsyncStorage.setItem(
             "refreshToken",
             res.data?.data?.refreshToken
           );
-          // console.log("refresh token updated");
+          console.log("refresh token updated");
         }
         if (res.data?.data?.accessToken) {
           await AsyncStorage.setItem(
             "accessToken",
             res.data?.data?.accessToken
           );
-          // console.log("accessToken token updated");
-        }
-        if (res.data?.data) {
-          return true;
+          console.log("accessToken token updated", res.data.data.accessToken);
         }
       })
       .catch((err) => {
         console.log("error: ", err);
-        if (err.response.data.data.error) {
-          Toast.show(err.response.data.data.error, Toast.LONG);
-        }
-        return false;
+        if(err.response.data.data.error){
+            Toast.show(err.response.data.data.error, Toast.LONG);
+          }
+        setAuth(false);
       });
   }
 };
