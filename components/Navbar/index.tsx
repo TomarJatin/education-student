@@ -3,25 +3,29 @@ import { Text, View, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
+import { useRoute } from "@react-navigation/native";
 export default function Navbar({ navigation }: any) {
+  const route = useRoute();
   return (
     <View
       style={{
         bottom: 10,
         backgroundColor: Color.textWhite,
         paddingHorizontal: 40,
-        paddingVertical: 15,
+        paddingTop: 15,
+        paddingBottom: 10,
         position: "absolute",
         zIndex: 20,
         width: "100%",
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
-        
-        gap: 35,
+        borderColor: "#D7D7D7",
+        borderTopWidth: 0.5,
+        gap: 40,
       }}
     >
-     <TouchableOpacity
+      <TouchableOpacity
         onPress={() => {
           navigation.navigate("Home");
         }}
@@ -31,11 +35,15 @@ export default function Navbar({ navigation }: any) {
         }}
         activeOpacity={0.5}
       >
-        <Ionicons name="home-outline" size={24} color="black" />
+        <Ionicons
+          name={route.name === "Home" ? "home" : "home-outline"}
+          size={20}
+          color="black"
+        />
         <Text
           style={{
             color: Color.textPrim,
-            fontSize: FontSize.medium12pxMed_size,
+            fontSize: FontSize.medium11pxMed_size,
           }}
         >
           Home
@@ -52,11 +60,11 @@ export default function Navbar({ navigation }: any) {
           navigation.navigate("Browsescreen");
         }}
       >
-        <SimpleLineIcons name="bag" size={24} color="black" />
+        <SimpleLineIcons name="bag" size={20} color="black" />
         <Text
           style={{
             color: Color.textPrim,
-            fontSize: FontSize.medium12pxMed_size,
+            fontSize: FontSize.medium11pxMed_size,
           }}
         >
           Browse
@@ -73,11 +81,11 @@ export default function Navbar({ navigation }: any) {
         }}
         activeOpacity={0.5}
       >
-        <Ionicons name="notifications-outline" size={24} color="black" />
+        <Ionicons name="notifications-outline" size={20} color="black" />
         <Text
           style={{
             color: Color.textPrim,
-            fontSize: FontSize.medium12pxMed_size,
+            fontSize: FontSize.medium11pxMed_size,
           }}
         >
           Notification
@@ -90,11 +98,11 @@ export default function Navbar({ navigation }: any) {
         }}
         activeOpacity={0.5}
       >
-        <Ionicons name="settings-outline" size={24} color="black" />
+        <Ionicons name="settings-outline" size={20} color="black" />
         <Text
           style={{
             color: Color.textPrim,
-            fontSize: FontSize.medium12pxMed_size,
+            fontSize: FontSize.medium11pxMed_size,
           }}
         >
           More

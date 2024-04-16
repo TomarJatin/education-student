@@ -13,7 +13,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Color, FontSize } from "../../GlobalStyles";
 import { LinearGradient } from "expo-linear-gradient";
 import { Image } from "expo-image";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { DataContext } from "../../contexts/DataContext";
 import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
@@ -22,9 +22,11 @@ import Carousel from "react-native-reanimated-carousel";
 import { AntDesign } from "@expo/vector-icons";
 import { DataContextType } from "../../types/context";
 import Navbar from "../../components/Navbar";
+import { getBannerByStudent } from "../../utils/api/banners";
 export default function Home({ navigation }: any) {
   const arr = [1, 2, 3, 4, 5, 6];
   const { setCourseScreen } = useContext(DataContext) as DataContextType;
+  const [banners, setBanners] = useState<any>([]);
   const [sponserCrousel, setSponserCrousel] = useState([
     {
       id: 1,
@@ -43,6 +45,14 @@ export default function Home({ navigation }: any) {
     }
   };
 
+  const fetchStudentBanners = async () => {
+    getBannerByStudent(10, 0, "asc", 1, setBanners);
+  };
+
+  useEffect(() => {
+    fetchStudentBanners();
+  }, []);
+
   return (
     <SafeAreaView>
       <StatusBar backgroundColor={Color.textWhite} barStyle={"dark-content"} />
@@ -56,13 +66,14 @@ export default function Home({ navigation }: any) {
         <FlatList
           data={["1"]}
           renderItem={() => (
-            <View style={{paddingBottom: 100}}>
+            <View style={{ paddingBottom: 100, paddingTop: 30 }}>
               <View
                 style={{
                   width: "100%",
                   flexDirection: "row",
                   justifyContent: "space-between",
                   alignItems: "center",
+                  paddingHorizontal: 6,
                 }}
               >
                 <Text
@@ -100,9 +111,30 @@ export default function Home({ navigation }: any) {
                   width={Dimensions.get("window").width * 0.98}
                   height={Dimensions.get("window").height * 0.29}
                   autoPlay={true}
-                  data={sponserCrousel}
+                  data={
+                    banners?.length > 0
+                      ? banners.map(
+                          (item: {
+                            _id: string;
+                            link: string;
+                            place: string;
+                            priority: number;
+                            status: number;
+                            type: string;
+                          }) => ({
+                            id: item._id,
+                            bannerUrl: item.link,
+                            bannerLink: item.link,
+                          })
+                        )
+                      : sponserCrousel
+                  }
                   scrollAnimationDuration={1000}
-                  renderItem={({ item }) => (
+                  renderItem={({
+                    item,
+                  }: {
+                    item: { id: number; bannerLink: string; bannerUrl: string };
+                  }) => (
                     <View
                       style={{
                         flex: 1,
@@ -136,7 +168,7 @@ export default function Home({ navigation }: any) {
                   display: "flex",
                   flexDirection: "row",
                   flexWrap: "wrap",
-                  gap: 12
+                  gap: 12,
                 }}
               >
                 <TouchableOpacity
@@ -436,11 +468,11 @@ export default function Home({ navigation }: any) {
                         alignItems: "flex-end",
                       }}
                     >
-                      <TouchableOpacity 
-                       delayPressIn={5}
-                       onPress={() => {
-                        navigation.navigate("Testscreen");
-                      }}
+                      <TouchableOpacity
+                        delayPressIn={5}
+                        onPress={() => {
+                          navigation.navigate("Testscreen");
+                        }}
                       >
                         <Image
                           style={{
@@ -492,7 +524,6 @@ export default function Home({ navigation }: any) {
                       </Text>
                     </View>
                   </View>
-                  
                 ))}
                 {[2].map((item, index) => (
                   <View
@@ -521,11 +552,11 @@ export default function Home({ navigation }: any) {
                         alignItems: "flex-end",
                       }}
                     >
-                      <TouchableOpacity 
-                       delayPressIn={5}
-                       onPress={() => {
-                        navigation.navigate("SubmitAssignement");
-                      }}
+                      <TouchableOpacity
+                        delayPressIn={5}
+                        onPress={() => {
+                          navigation.navigate("SubmitAssignement");
+                        }}
                       >
                         <Image
                           style={{
@@ -577,17 +608,11 @@ export default function Home({ navigation }: any) {
                       </Text>
                     </View>
                   </View>
-                  
                 ))}
-                
-                
               </ScrollView>
             </View>
 
-
-
-/////assinment
-
+            /////assinment
           )}
           showsVerticalScrollIndicator={false}
         />
