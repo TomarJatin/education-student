@@ -52,7 +52,6 @@ import { uploadFiles } from "../../utils/api/upload";
 
 export default function Assignment({ navigation }: any) {
   const {
-    setSelectedVideo,
     selectedChapter,
     selectedAssignment,
     selectedTest,
@@ -61,29 +60,13 @@ export default function Assignment({ navigation }: any) {
   const [assignmentName, setAssignmentName] = useState("");
   const [assignmentGrading, setAssignmentGrading] = useState(false);
   const [assignmentSolution, setAssignmentSolution] = useState(false);
-  const [testName, setTestName] = useState("");
-  const [testGrading, setTestGrading] = useState(false);
-  const [testSolution, setTestSolution] = useState(false);
-  const [noteName, setNoteName] = useState("");
   const [open, setOpen] = useState("");
-  const [noteType, setNoteType] = useState("");
-  const [noteDownloadable, setNoteDownloadable] = useState(false);
-  const [currSelectedVideo, setCurrSelectedVideo] = useState<VideoType | null>(
-    null
-  );
-  const [currSelectedNotes, setCurrSelectedNotes] = useState<any>(null);
-  const [currSelectedAssignment, setCurrSelectedAssignment] =
-    useState<AssignmentsType | null>(null);
-  const [currSelectedTest, setCurrSelectedTest] = useState<TestType | null>(
-    null
-  );
   const [allAssignments, setAllAssignments] = useState<AssignmentsType[]>([]);
   const [allQuestions, setAllQuestions] = useState<QuestionType[]>([]);
   const [selectedCurrQuestionIdx, setSelectedCurrQuestionIdx] = useState(-1);
   const [allNotes, setAllNotes] = useState<NoteType[]>([]);
   const [allTests, setAllTests] = useState<TestType[]>([]);
   const [allVideos, setAllVideos] = useState<VideoType[]>([]);
-  const [notesFile, setNotesFile] = useState<any>(null);
 
   const fetchAllVideos = () => {
     if (!selectedChapter) {
@@ -144,160 +127,15 @@ export default function Assignment({ navigation }: any) {
     );
   };
 
-  const handleUpdateClick = () => {
-    console.log("update clicked", currSelectedVideo);
-    setOpen("");
-    if (currSelectedVideo) {
-      setSelectedVideo(currSelectedVideo);
-      navigation.navigate("AddVideo");
-    }
-  };
+ 
 
-  const handleCreateNote = async () => {
-    if (!selectedChapter || !notesFile) {
-      return;
-    }
-    const _arr = notesFile.split(".");
-    const lastElement = _arr.pop();
+  
 
-    var file: any = {
-      uri: notesFile,
-      type: "file/" + lastElement,
-      name: "file." + lastElement,
-    };
-    const res: any = await uploadFiles(file);
-    console.log("res: ", res);
-    let url = [];
-    if (res && res?.data?.urls) {
-      url = res.data.urls;
-    }
-    let data = JSON.stringify({
-      chapterId: selectedChapter._id,
-      noteName: noteName,
-      noteType: noteType,
-      noteDownload: String(noteDownloadable),
-      noteUrl: url,
-    });
+  
 
-    if(currSelectedNotes){
-      await handleUpdateNotes(data, currSelectedNotes._id);
-      setCurrSelectedNotes(null);
-    }
-    else{
-      await handleAddNotes(data);
-    }
-    fetchAllNotes();
-    setOpen("");
-  };
+ 
 
-  const handleDeleteVideo = async () => {
-    if (currSelectedVideo) {
-      await deleteVideo(currSelectedVideo?._id);
-      fetchAllVideos();
-      setOpen("");
-    }
-  };
-
-  const handleUpdateAssignmentClick = () => {
-    if (currSelectedAssignment) {
-      setOpen("add assignment");
-      setAssignmentName(currSelectedAssignment.assignmentName);
-      setAssignmentGrading(Boolean(currSelectedAssignment.assignmentGrading));
-      setAssignmentSolution(Boolean(currSelectedAssignment.assignmentSolution));
-    }
-  };
-
-  const DeleteAssignment = async () => {
-    if (currSelectedAssignment) {
-      await handleDeleteAssignments(currSelectedAssignment?._id);
-      fetchAllAssignments();
-      setOpen("");
-    }
-  };
-
-  const DeleteNote = async () => {
-    if (currSelectedNotes) {
-      await handleDeleteNotes(currSelectedNotes?._id);
-      fetchAllNotes();
-      setOpen("");
-    }
-  };
-
-  const DeleteTest = async () => {
-    if (currSelectedTest) {
-      await handleDeleteTests(currSelectedTest?._id);
-      fetchAllTests();
-      setOpen("");
-    }
-  };
-
-  const handleCreateAssignment = async () => {
-    if (!selectedChapter) {
-      return;
-    }
-    let data = JSON.stringify({
-      chapterId: selectedChapter._id,
-      assignmentName: assignmentName,
-      assignmentType: "basic",
-      assignmentGrading: String(assignmentGrading),
-      assignmentSolution: String(assignmentSolution),
-      assignmentUIType: "basic",
-      totalMarks: "50",
-      assignmentDuration: "60",
-    });
-    if(currSelectedAssignment){
-      await handleUpdateAssignments(data, currSelectedAssignment._id);
-      setCurrSelectedAssignment(null);
-    }else{
-      await handleAddAssignments(data);
-    }
-    fetchAllAssignments();
-    setOpen("");
-  };
-
-  const handleUpdateTestClick = () => {
-    console.log("update clicked", currSelectedTest);
-    if(currSelectedTest){
-      setOpen("add test");
-      setTestName(currSelectedTest.testName);
-      setTestGrading(Boolean(currSelectedTest.testGrading));
-      setTestSolution(Boolean(currSelectedTest.testSolution));
-    }
-  };
-
-  const handleUpdateNoteClick = () => {
-    if(currSelectedNotes){
-      setOpen("add note");
-      setNoteName(currSelectedNotes.noteName);
-      setNoteType(currSelectedNotes.noteType);
-      setNoteDownloadable(Boolean(currSelectedNotes.noteDownload));
-    }
-  };
-
-  const handleCreateTest = async () => {
-    if (!selectedChapter) {
-      return;
-    }
-    let data = JSON.stringify({
-      chapterId: selectedChapter._id,
-      testName: testName,
-      testType: "basic",
-      testGrading: String(testGrading),
-      testSolution: String(testSolution),
-      testUIType: "basic",
-      totalMarks: "50",
-      testDuration: "60",
-    });
-    if(currSelectedTest){
-      await handleUpdateTests(data, currSelectedTest._id);
-      setCurrSelectedTest(null);
-    }
-    else{
-      await handleAddTests(data);
-    }
-    fetchAllTests();
-    setOpen("");
-  };
+  
 
   return (
     <>
@@ -400,7 +238,6 @@ export default function Assignment({ navigation }: any) {
                   <Video
                     navigation={navigation}
                     setOpen={setOpen}
-                    setCurrSelectedVideo={setCurrSelectedVideo}
                     allVideos={allVideos}
                     fetchAllVideos={fetchAllVideos}
                     setAllVideos={setAllVideos}
@@ -408,7 +245,6 @@ export default function Assignment({ navigation }: any) {
                 )}
                 {tab === "Assignments" && (
                   <Assignments
-                    setCurrSelectedAssignment={setCurrSelectedAssignment}
                     navigation={navigation}
                     setOpen={setOpen}
                     allAssignments={allAssignments}
@@ -418,7 +254,7 @@ export default function Assignment({ navigation }: any) {
                   />
                 )}
 
-                {tab === "add questions" && (
+                {tab === "questions" && (
                   <AddQuestions
                     navigation={navigation}
                     setOpen={setOpen}
@@ -432,7 +268,6 @@ export default function Assignment({ navigation }: any) {
 
                 {tab === "Tests" && (
                   <Tests
-                    setCurrSelectedTests={setCurrSelectedTest}
                     navigation={navigation}
                     setOpen={setOpen}
                     allTests={allTests}
@@ -444,7 +279,6 @@ export default function Assignment({ navigation }: any) {
 
                 {tab === "Notes" && (
                   <Notes
-                    setCurrSelectedNotes={setCurrSelectedNotes}
                     navigation={navigation}
                     setOpen={setOpen}
                     allNotes={allNotes}
@@ -467,32 +301,12 @@ export default function Assignment({ navigation }: any) {
         onBackdropPress={() => setOpen("")}
         onBackButtonPress={() => setOpen("")}
       >
-        {open === "more video" && (
-          <MoreVideoOptions
-            handleDeleteClick={handleDeleteVideo}
-            handleUpdateClick={handleUpdateClick}
-          />
-        )}
+        
 
-        {open === "more assignment options" && (
-          <MoreVideoOptions
-            handleDeleteClick={DeleteAssignment}
-            handleUpdateClick={handleUpdateAssignmentClick}
-          />
-        )}
+        
 
-        {open === "more tests options" && (
-          <MoreVideoOptions
-            handleDeleteClick={DeleteTest}
-            handleUpdateClick={handleUpdateTestClick}
-          />
-        )}
-        {open === "more notes options" && (
-          <MoreVideoOptions
-            handleDeleteClick={DeleteNote}
-            handleUpdateClick={handleUpdateNoteClick}
-          />
-        )}
+       
+        
         {open === "add assignment" && (
           <AddAssignment
             setOpen={setOpen}
@@ -502,37 +316,10 @@ export default function Assignment({ navigation }: any) {
             solution={assignmentSolution}
             grading={assignmentGrading}
             assignmentName={assignmentName}
-            handleCreateAssignment={handleCreateAssignment}
           />
         )}
 
-        {open === "add test" && (
-          <AddTest
-            setOpen={setOpen}
-            setTestName={setTestName}
-            setGranding={setTestGrading}
-            setSolution={setTestSolution}
-            solution={testSolution}
-            grading={testGrading}
-            TestName={testName}
-            handleCreateTest={handleCreateTest}
-          />
-        )}
-
-        {open === "add note" && (
-          <AddNote
-            setOpen={setOpen}
-            setNoteName={setNoteName}
-            noteName={noteName}
-            handleCreateNote={handleCreateNote}
-            noteDownloadable={noteDownloadable}
-            noteType={noteType}
-            setNoteDownloadable={setNoteDownloadable}
-            setNoteType={setNoteType}
-            notesFile={notesFile}
-            setNotesFile={setNotesFile}
-          />
-        )}
+        
       </Modal>
     </>
   );

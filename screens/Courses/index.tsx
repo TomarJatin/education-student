@@ -174,7 +174,7 @@ export default function Courses({ navigation }: any) {
   };
 
   const fetchAllCourses = async () => {
-    getAllCourse("base", 10, 0, "asc", 10, setAllCourses);
+    getAllCourse("base", 10, 0, "asc", 1, setAllCourses);
   };
 
   useEffect(() => {

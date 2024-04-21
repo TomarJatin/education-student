@@ -149,10 +149,10 @@ export default function AddQuestions({
                 marginBottom: 20,
               }}
             >
-              {
+              { allQuestions[selectedCurrQuestionIdx]?.question?.image &&
                 <Image
                   source={{
-                    uri: "https://images.pexels.com/photos/356079/pexels-photo-356079.jpeg?cs=srgb&dl=pexels-pixabay-356079.jpg&fm=jpg",
+                    uri: allQuestions[selectedCurrQuestionIdx].question.image,
                   }}
                   style={{
                     width: "100%",
@@ -202,6 +202,7 @@ export default function AddQuestions({
                 backgroundColor: Color.cardPrim2,
                 borderWidth: 1,
                 borderColor: Color.border,
+                marginBottom: 20
               }}
             >
               <View
@@ -210,9 +211,10 @@ export default function AddQuestions({
                 }}
               >
                 {
+                  item?.image &&
                   <Image
                     source={{
-                      uri: "https://images.pexels.com/photos/356079/pexels-photo-356079.jpeg?cs=srgb&dl=pexels-pixabay-356079.jpg&fm=jpg",
+                      uri: item.image,
                     }}
                     style={{
                       width: "100%",

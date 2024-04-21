@@ -25,7 +25,6 @@ import DraggableFlatList, {
 
 interface AssignmentsProps {
   navigation: any;
-  setCurrSelectedAssignment: any;
   setOpen: any;
   setTab: any;
   fetchAllAssignments: any;
@@ -33,9 +32,8 @@ interface AssignmentsProps {
   setAllAssignments: any;
 }
 
-export default function Assignments({
+export default function AssignmentsComponent({
   navigation,
-  setCurrSelectedAssignment,
   setOpen,
   setTab,
   fetchAllAssignments,
@@ -58,7 +56,7 @@ export default function Assignments({
         disabled={isActive}
         onLongPress={drag}
               onPress={() => {
-                setTab("add questions");
+                setTab("questions");
                 setSelectedAssignment({ ...item });
               }}
               activeOpacity={0.5}
@@ -97,43 +95,7 @@ export default function Assignments({
                   {item.assignmentName}
                 </Text>
               </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  gap: 10,
-                }}
-              >
-                <TouchableOpacity
-                disabled={courseScreen==="base"}
-              onPress={() =>
-                handleStatusChange(item, item.status === 0 ? 1 : 0)
-              }
-              style={{
-                padding: 8,
-                backgroundColor: item.status
-                  ? Color.blueButton
-                  : Color.buttonCardBg,
-                borderRadius: 100,
-              }}
-              activeOpacity={0.5}
-            >
-              <Ionicons
-                name="ios-eye-off-outline"
-                size={18}
-                color={item.status ? "white" : "black"}
-              />
-            </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => {
-                    setCurrSelectedAssignment({ ...item });
-                    setOpen("more assignment options");
-                  }}
-                  activeOpacity={0.5}
-                >
-                  <MaterialIcons name="more-vert" size={24} color="black" />
-                </TouchableOpacity>
-              </View>
+              
             </TouchableOpacity>
       </ScaleDecorator>
     );

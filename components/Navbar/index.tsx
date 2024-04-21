@@ -97,6 +97,7 @@ export default function Navbar({ navigation }: any) {
           alignItems: "center",
         }}
         activeOpacity={0.5}
+        onPress={() => navigation.navigate("More")}
       >
         <Ionicons name="settings-outline" size={20} color="black" />
         <Text

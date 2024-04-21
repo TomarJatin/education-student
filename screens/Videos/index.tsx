@@ -11,54 +11,28 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useContext, useState } from "react";
 import { DataContextType } from "../../types/context";
 import { DataContext } from "../../contexts/DataContext";
-import { getAllTests } from "../../utils/api/tests";
-import { TestType } from "../../types/test";
-import TestsComponent from "../../components/Assignment/Tests";
-import AddQuestions from "../../components/Assignment/AddQuestions";
-import { getAllQuestions } from "../../utils/api/question";
-import { QuestionType } from "../../types/questions";
+import { VideoType } from "../../types/video";
+import Video from "../../components/Assignment/Video";
+import { getAllVideos } from "../../utils/api/video";
 
-export default function Tests({ navigation }: any) {
+export default function Videos({ navigation }: any) {
     const {
         selectedChapter,
         selectedAssignment,
         selectedTest,
       } = useContext(DataContext) as DataContextType;
-      const [tab, setTab] = useState("Tests");
+      const [tab, setTab] = useState((selectedChapter?.chapterComponent && selectedChapter?.chapterComponent?.length > 0) ?  selectedChapter?.chapterComponent[0]: "");
+      const [assignmentName, setAssignmentName] = useState("");
+      const [assignmentGrading, setAssignmentGrading] = useState(false);
+      const [assignmentSolution, setAssignmentSolution] = useState(false);
       const [open, setOpen] = useState("");
-      const [allTests, setAllTests] = useState<TestType[]>([]);
-      const [allQuestions, setAllQuestions] = useState<QuestionType[]>([]);
-      const [selectedCurrQuestionIdx, setSelectedCurrQuestionIdx] = useState(-1);
+      const [allVideos, setAllVideos] = useState<VideoType[]>([]);
     
-      const fetchAllQuestions = () => {
-        if (selectedAssignment) {
-          getAllQuestions(
-            selectedAssignment?._id,
-            10,
-            0,
-            "asc",
-            10,
-            setAllQuestions,
-            "assignmentId"
-          );
-        } else if (selectedTest) {
-          getAllQuestions(
-            selectedTest?._id,
-            10,
-            0,
-            "asc",
-            10,
-            setAllQuestions,
-            "testId"
-          );
-        }
-      };
-    
-      const fetchAllTests = () => {
+      const fetchAllVideos = () => {
         if (!selectedChapter) {
           return;
         }
-        getAllTests(selectedChapter?._id, 10, 0, "asc", 10, setAllTests);
+        getAllVideos(selectedChapter?._id, 10, 0, "asc", 10, setAllVideos);
       };
     
       
@@ -108,7 +82,7 @@ export default function Tests({ navigation }: any) {
                   fontWeight: "600",
                 }}
               >
-                Tests
+                Videos
               </Text>
             </View>
             <TouchableOpacity
@@ -125,28 +99,13 @@ export default function Tests({ navigation }: any) {
           data={["1"]}
           renderItem={() => (
             <View style={{ paddingBottom: 400 }}>
-             {tab === "questions" && (
-                  <AddQuestions
+              <Video
                     navigation={navigation}
                     setOpen={setOpen}
-                    allQuestions={allQuestions}
-                    fetchAllQuestions={fetchAllQuestions}
-                    selectedCurrQuestionIdx={selectedCurrQuestionIdx}
-                    setSelectedCurrQuestionIdx={setSelectedCurrQuestionIdx}
-                    setAllQuestions={setAllQuestions}
+                    allVideos={allVideos}
+                    fetchAllVideos={fetchAllVideos}
+                    setAllVideos={setAllVideos}
                   />
-                )}
-
-                {tab === "Tests" && (
-                  <Tests
-                    navigation={navigation}
-                    setOpen={setOpen}
-                    allTests={allTests}
-                    fetchAllTests={fetchAllTests}
-                    setAllTests={setAllTests}
-                    setTab={setTab}
-                  />
-                )}
             </View>
           )}
           style={{

@@ -89,7 +89,7 @@ export const getAllVideos = async (
   axios({
     method: "get",
     maxBodyLength: Infinity,
-    url: `${BaseURL}/api/video/instructor/videos?chapterId=${chapterId}&limit=${limit}&skip=${skip}&order=${order}&status=${videoStatus}`,
+    url: `${BaseURL}/api/video/student/videos?chapterId=${chapterId}&limit=${limit}&skip=${skip}&order=${order}&status=${videoStatus}`,
     headers: {
       Authorization: "Bearer " + accessToken,
     },

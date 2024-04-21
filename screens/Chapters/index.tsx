@@ -64,7 +64,7 @@ export default function Chapters({ navigation }: any) {
           onLongPress={drag}
           disabled={isActive}
           onPress={() => {
-            navigation.navigate("Assignment");
+            navigation.navigate("SelectCategory");
             setSelectedChapter({ ...item });
           }}
           activeOpacity={0.5}

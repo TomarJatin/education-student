@@ -27,7 +27,6 @@ import DraggableFlatList, {
 interface VideoProps {
   navigation: any;
   setOpen: any;
-  setCurrSelectedVideo: any;
   fetchAllVideos: () => void;
   allVideos: VideoType[];
   setAllVideos: any;
@@ -36,7 +35,6 @@ interface VideoProps {
 export default function VideoComponent({
   navigation,
   setOpen,
-  setCurrSelectedVideo,
   allVideos,
   fetchAllVideos,
   setAllVideos,
@@ -80,43 +78,7 @@ export default function VideoComponent({
             >
               {item.videoTitle}
             </Text>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                gap: 10,
-              }}
-            >
-              <TouchableOpacity
-                disabled={courseScreen === "base"}
-                onPress={() =>
-                  handleStatusChange(item, item.status === 0 ? 1 : 0)
-                }
-                style={{
-                  padding: 8,
-                  backgroundColor: item.status
-                    ? Color.blueButton
-                    : Color.buttonCardBg,
-                  borderRadius: 100,
-                }}
-                activeOpacity={0.5}
-              >
-                <Ionicons
-                  name="ios-eye-off-outline"
-                  size={18}
-                  color={item.status ? "white" : "black"}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  setCurrSelectedVideo({ ...item });
-                  setOpen("more video");
-                }}
-                activeOpacity={0.5}
-              >
-                <MaterialIcons name="more-vert" size={24} color="black" />
-              </TouchableOpacity>
-            </View>
+           
           </View>
           <Video
             ref={video}
@@ -164,7 +126,7 @@ export default function VideoComponent({
   return (
     <View>
       {/* Create Card */}
-      <View
+      {/* <View
         style={{
           padding: 20,
           borderRadius: 20,
@@ -230,7 +192,7 @@ export default function VideoComponent({
             />
           </TouchableOpacity>
         </View>
-      </View>
+      </View> */}
       {courseScreen !== "base" && (
         <View
           style={{

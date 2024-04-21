@@ -145,7 +145,7 @@ import ActiveCoursesOptions from "../../components/Models/ActiveCourseOptions";
     };
   
     const fetchAllCourses = async () => {
-      getAllCourse("base", 10, 0, "asc", 10, setAllCourses);
+      getAllCourse("base", 10, 0, "asc", 1, setAllCourses);
     };
   
     useEffect(() => {

@@ -117,8 +117,8 @@ export const getAllCourse = async (
       }
       setAllCourses([...res.data.data]);
     })
-    .catch((err) => {
-      console.log("base url err: ", err?.response?.data);
+    .catch((err: any) => {
+      console.log("error in fetching all courses: ", err?.response?.data, `${BaseURL}/api/courseManagement/course/student?limit=${limit}&skip=${skip}&order=${order}&status=${courseStatus}`, accessToken);
     });
 };
 

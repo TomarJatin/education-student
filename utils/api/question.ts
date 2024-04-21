@@ -90,13 +90,13 @@ export const getAllQuestions = async (
   axios({
     method: "get",
     maxBodyLength: Infinity,
-    url: `${BaseURL}/api/question/instructor/questions?${idType}=${chapterId}&limit=${limit}&skip=${skip}&order=${order}&status=${videoStatus}`,
+    url: `${BaseURL}/api/question/student/questions?${idType}=${chapterId}&limit=${limit}&skip=${skip}&order=${order}&status=${videoStatus}`,
     headers: {
       Authorization: "Bearer " + accessToken,
     },
   })
     .then((res) => {
-      console.log("res: ", res.data, `${BaseURL}/api/question/instructor/question?${idType}=${chapterId}&limit=${limit}&skip=${skip}&order=${order}&status=${videoStatus}`, accessToken);
+      console.log("res: ", res.data, `${BaseURL}/api/question/student/questions?${idType}=${chapterId}&limit=${limit}&skip=${skip}&order=${order}&status=${videoStatus}`, accessToken);
       if(res.data?.data){
         Toast.show(JSON.stringify(res.data?.data), Toast.LONG);
       }

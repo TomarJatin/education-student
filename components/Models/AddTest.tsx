@@ -11,7 +11,6 @@ interface AddTestProps {
   setGranding: any;
   solution: boolean;
   setSolution: any;
-  handleCreateTest: any;
 }
 
 export default function AddTest({
@@ -22,7 +21,6 @@ export default function AddTest({
   setGranding,
   solution,
   setSolution,
-  handleCreateTest,
 }: AddTestProps) {
 
   return (
@@ -132,7 +130,6 @@ export default function AddTest({
       <View>
 
         <TouchableOpacity
-          onPress={() => handleCreateTest()}
           activeOpacity={0.5}
           style={{
             width: "100%",

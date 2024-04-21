@@ -26,6 +26,11 @@ import Tests from "./Tests";
 import Analytics from "./Analytics";
 import VideoComponent from "./Assignment/Video";
 import Courses from "./Courses";
+import More from "./More";
+import SelectCategory from "./SelectCategory";
+import Assignments from "./Assignments";
+import Notes from "./Notes";
+import Videos from "./Videos";
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -128,6 +133,31 @@ export default function Route() {
           <Stack.Screen
           name="VideoComponent"
           component={VideoComponent}
+          options={{headerShown:false}}
+          />
+          <Stack.Screen
+          name="SelectCategory"
+          component={SelectCategory}
+          options={{headerShown:false}}
+          />
+          <Stack.Screen
+          name="More"
+          component={More}
+          options={{headerShown:false}}
+          />
+          <Stack.Screen
+          name="Assignments"
+          component={Assignments}
+          options={{headerShown:false}}
+          />
+          <Stack.Screen
+          name="Notes"
+          component={Notes}
+          options={{headerShown:false}}
+          />
+          <Stack.Screen
+          name="Videos"
+          component={Videos}
           options={{headerShown:false}}
           />
 

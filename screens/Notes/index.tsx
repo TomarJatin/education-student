@@ -11,57 +11,31 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useContext, useState } from "react";
 import { DataContextType } from "../../types/context";
 import { DataContext } from "../../contexts/DataContext";
-import { getAllTests } from "../../utils/api/tests";
-import { TestType } from "../../types/test";
-import TestsComponent from "../../components/Assignment/Tests";
-import AddQuestions from "../../components/Assignment/AddQuestions";
-import { getAllQuestions } from "../../utils/api/question";
-import { QuestionType } from "../../types/questions";
+import { getAllNotes } from "../../utils/api/notes";
+import NotesComponent from "../../components/Assignment/Notes";
+import { NoteType } from "../../types/notes";
 
-export default function Tests({ navigation }: any) {
+export default function Notes({ navigation }: any) {
     const {
         selectedChapter,
         selectedAssignment,
         selectedTest,
       } = useContext(DataContext) as DataContextType;
-      const [tab, setTab] = useState("Tests");
+      const [tab, setTab] = useState((selectedChapter?.chapterComponent && selectedChapter?.chapterComponent?.length > 0) ?  selectedChapter?.chapterComponent[0]: "");
       const [open, setOpen] = useState("");
-      const [allTests, setAllTests] = useState<TestType[]>([]);
-      const [allQuestions, setAllQuestions] = useState<QuestionType[]>([]);
       const [selectedCurrQuestionIdx, setSelectedCurrQuestionIdx] = useState(-1);
+      const [allNotes, setAllNotes] = useState<NoteType[]>([]);
     
-      const fetchAllQuestions = () => {
-        if (selectedAssignment) {
-          getAllQuestions(
-            selectedAssignment?._id,
-            10,
-            0,
-            "asc",
-            10,
-            setAllQuestions,
-            "assignmentId"
-          );
-        } else if (selectedTest) {
-          getAllQuestions(
-            selectedTest?._id,
-            10,
-            0,
-            "asc",
-            10,
-            setAllQuestions,
-            "testId"
-          );
-        }
-      };
+      
     
-      const fetchAllTests = () => {
+      const fetchAllNotes = () => {
         if (!selectedChapter) {
           return;
         }
-        getAllTests(selectedChapter?._id, 10, 0, "asc", 10, setAllTests);
+        getAllNotes(selectedChapter?._id, 10, 0, "asc", 10, setAllNotes);
       };
     
-      
+     
 
   return (
     <SafeAreaView>
@@ -108,7 +82,7 @@ export default function Tests({ navigation }: any) {
                   fontWeight: "600",
                 }}
               >
-                Tests
+                Notes
               </Text>
             </View>
             <TouchableOpacity
@@ -125,28 +99,13 @@ export default function Tests({ navigation }: any) {
           data={["1"]}
           renderItem={() => (
             <View style={{ paddingBottom: 400 }}>
-             {tab === "questions" && (
-                  <AddQuestions
+              <NotesComponent
                     navigation={navigation}
                     setOpen={setOpen}
-                    allQuestions={allQuestions}
-                    fetchAllQuestions={fetchAllQuestions}
-                    selectedCurrQuestionIdx={selectedCurrQuestionIdx}
-                    setSelectedCurrQuestionIdx={setSelectedCurrQuestionIdx}
-                    setAllQuestions={setAllQuestions}
+                    allNotes={allNotes}
+                    fetchAllNotes={fetchAllNotes}
+                    setAllNotes={setAllNotes}
                   />
-                )}
-
-                {tab === "Tests" && (
-                  <Tests
-                    navigation={navigation}
-                    setOpen={setOpen}
-                    allTests={allTests}
-                    fetchAllTests={fetchAllTests}
-                    setAllTests={setAllTests}
-                    setTab={setTab}
-                  />
-                )}
             </View>
           )}
           style={{

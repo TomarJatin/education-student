@@ -25,7 +25,6 @@ import DraggableFlatList, {
 
 interface TestsProps {
   navigation: any;
-  setCurrSelectedTests: any;
   setOpen: any;
   fetchAllTests: () => any;
   allTests: TestType[];
@@ -33,9 +32,8 @@ interface TestsProps {
   setTab: any;
 }
 
-export default function Tests({
+export default function TestsComponent({
   navigation,
-  setCurrSelectedTests,
   setOpen,
   fetchAllTests,
   allTests,
@@ -58,7 +56,7 @@ export default function Tests({
          onLongPress={drag}
          disabled={isActive}
          onPress={() => {
-          setTab("add questions");
+          setTab("questions");
           setSelectedTest({ ...item });
         }}
               activeOpacity={0.5}
@@ -126,7 +124,6 @@ export default function Tests({
             </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
-                    setCurrSelectedTests({ ...item });
                     setOpen("more tests options");
                   }}
                   activeOpacity={0.5}
@@ -156,73 +153,7 @@ export default function Tests({
   return (
     <View>
       {/* Create Card */}
-      <View
-        style={{
-          padding: 20,
-          borderRadius: 20,
-          borderColor: Color.border,
-          borderWidth: 1,
-          marginTop: 20,
-        }}
-      >
-        <View>
-          <Text
-            style={{
-              color: Color.buttonBg,
-              fontSize: FontSize.medium14pxMed_size,
-              fontWeight: "600",
-              marginBottom: 10,
-            }}
-          >
-            Add Questions
-          </Text>
-        </View>
-        <Text
-          style={{
-            color: Color.textSecondary,
-            fontSize: FontSize.medium11pxMed_size,
-            fontWeight: "400",
-            marginBottom: 20,
-          }}
-        >
-          Add thumbnail for better visibility. Students may find them appealing.
-        </Text>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "flex-end",
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => setOpen("add test")}
-            activeOpacity={0.5}
-            style={{
-              flexDirection: "row",
-              gap: 10,
-              alignItems: "center",
-              paddingHorizontal: 30,
-              paddingVertical: 10,
-              backgroundColor: Color.buttonBg,
-              borderRadius: 100,
-            }}
-          >
-            <Text
-              style={{
-                color: Color.textWhite,
-                fontSize: FontSize.medium12pxMed_size,
-                fontWeight: "500",
-              }}
-            >
-              Add
-            </Text>
-            <MaterialCommunityIcons
-              name="pencil-outline"
-              size={16}
-              color="white"
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
+    
 
       <View
         style={{

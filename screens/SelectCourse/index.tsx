@@ -26,12 +26,12 @@ import { CourseType } from "../../types/courses";
 import { DataContextType } from "../../types/context";
 import { DataContext } from "../../contexts/DataContext";
 
-export default function SelectedCourse({ navigation }: any) {
+export default function SelectCourse({ navigation }: any) {
     const { setSelectedForumCourse } = useContext(DataContext) as DataContextType;
     const [allCourses, setAllCourses] = useState<CourseType[]>([]);
 
     const fetchAllCourses = async () => {
-        getAllCourse("base", 10, 0, "asc", 10, setAllCourses);
+        getAllCourse("base", 10, 0, "asc", 1, setAllCourses);
       };
     
       useEffect(() => {

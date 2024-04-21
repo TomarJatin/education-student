@@ -26,16 +26,14 @@ import DraggableFlatList, {
 
 interface NotesProps {
   navigation: any;
-  setCurrSelectedNotes: any;
   setOpen: any;
   fetchAllNotes: any;
   allNotes: NoteType[];
   setAllNotes: any;
 }
 
-export default function Notes({
+export default function NotesComponent({
   navigation,
-  setCurrSelectedNotes,
   setOpen,
   fetchAllNotes,
   allNotes,
@@ -123,7 +121,6 @@ export default function Notes({
             </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
-                    setCurrSelectedNotes({ ...item });
                     setOpen("more notes options");
                   }}
                   activeOpacity={0.5}

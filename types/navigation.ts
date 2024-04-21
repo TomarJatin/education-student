@@ -18,4 +18,9 @@ export type RootStackParamList = {
     Browsescreen: undefined;
     VideoComponent: undefined;
     SubmitAssignement: undefined;
+    More: undefined;
+    SelectCategory: undefined;
+    Assignments: undefined;
+    Notes: undefined;
+    Videos: undefined;
   };

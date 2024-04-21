@@ -11,7 +11,6 @@ interface AddAssignmentProps {
   setGranding: any;
   solution: boolean;
   setSolution: any;
-  handleCreateAssignment: any;
 }
 
 export default function AddAssignment({
@@ -22,7 +21,6 @@ export default function AddAssignment({
   setGranding,
   solution,
   setSolution,
-  handleCreateAssignment,
 }: AddAssignmentProps) {
 
   return (
@@ -133,7 +131,6 @@ export default function AddAssignment({
       <View>
 
         <TouchableOpacity
-          onPress={() => handleCreateAssignment()}
           activeOpacity={0.5}
           style={{
             width: "100%",

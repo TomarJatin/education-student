@@ -39,7 +39,7 @@ export default function Tags({ navigation }: any) {
   const [isEnabled, setIsEnabled] = useState(false);
 
   const fetchAllCourses = async () => {
-    getAllCourse("base", 10, 0, "asc", 10, setAllCourses);
+    getAllCourse("base", 10, 0, "asc", 1, setAllCourses);
   };
 
   useEffect(() => {

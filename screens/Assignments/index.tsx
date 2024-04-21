@@ -11,24 +11,29 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useContext, useState } from "react";
 import { DataContextType } from "../../types/context";
 import { DataContext } from "../../contexts/DataContext";
-import { getAllTests } from "../../utils/api/tests";
-import { TestType } from "../../types/test";
-import TestsComponent from "../../components/Assignment/Tests";
-import AddQuestions from "../../components/Assignment/AddQuestions";
-import { getAllQuestions } from "../../utils/api/question";
+import { AssignmentsType } from "../../types/assignments";
 import { QuestionType } from "../../types/questions";
+import { getAllAssignments } from "../../utils/api/assignments";
+import { getAllQuestions } from "../../utils/api/question";
+import AssignmentsComponent from "../../components/Assignment/Assignments";
+import AddQuestions from "../../components/Assignment/AddQuestions";
 
-export default function Tests({ navigation }: any) {
+export default function Assignments({ navigation }: any) {
     const {
         selectedChapter,
         selectedAssignment,
         selectedTest,
       } = useContext(DataContext) as DataContextType;
-      const [tab, setTab] = useState("Tests");
+      const [tab, setTab] = useState("Assignments");
+      const [assignmentName, setAssignmentName] = useState("");
+      const [assignmentGrading, setAssignmentGrading] = useState(false);
+      const [assignmentSolution, setAssignmentSolution] = useState(false);
       const [open, setOpen] = useState("");
-      const [allTests, setAllTests] = useState<TestType[]>([]);
+      const [allAssignments, setAllAssignments] = useState<AssignmentsType[]>([]);
       const [allQuestions, setAllQuestions] = useState<QuestionType[]>([]);
       const [selectedCurrQuestionIdx, setSelectedCurrQuestionIdx] = useState(-1);
+    
+     
     
       const fetchAllQuestions = () => {
         if (selectedAssignment) {
@@ -54,14 +59,19 @@ export default function Tests({ navigation }: any) {
         }
       };
     
-      const fetchAllTests = () => {
+      const fetchAllAssignments = () => {
         if (!selectedChapter) {
           return;
         }
-        getAllTests(selectedChapter?._id, 10, 0, "asc", 10, setAllTests);
+        getAllAssignments(
+          selectedChapter?._id,
+          10,
+          0,
+          "asc",
+          10,
+          setAllAssignments
+        );
       };
-    
-      
 
   return (
     <SafeAreaView>
@@ -108,7 +118,7 @@ export default function Tests({ navigation }: any) {
                   fontWeight: "600",
                 }}
               >
-                Tests
+                Assignments
               </Text>
             </View>
             <TouchableOpacity
@@ -125,7 +135,18 @@ export default function Tests({ navigation }: any) {
           data={["1"]}
           renderItem={() => (
             <View style={{ paddingBottom: 400 }}>
-             {tab === "questions" && (
+              {tab === "Assignments" && (
+                  <Assignments
+                    navigation={navigation}
+                    setOpen={setOpen}
+                    allAssignments={allAssignments}
+                    fetchAllAssignments={fetchAllAssignments}
+                    setTab={setTab}
+                    setAllAssignments={setAllAssignments}
+                  />
+                )}
+
+                {tab === "questions" && (
                   <AddQuestions
                     navigation={navigation}
                     setOpen={setOpen}
@@ -134,17 +155,6 @@ export default function Tests({ navigation }: any) {
                     selectedCurrQuestionIdx={selectedCurrQuestionIdx}
                     setSelectedCurrQuestionIdx={setSelectedCurrQuestionIdx}
                     setAllQuestions={setAllQuestions}
-                  />
-                )}
-
-                {tab === "Tests" && (
-                  <Tests
-                    navigation={navigation}
-                    setOpen={setOpen}
-                    allTests={allTests}
-                    fetchAllTests={fetchAllTests}
-                    setAllTests={setAllTests}
-                    setTab={setTab}
                   />
                 )}
             </View>
