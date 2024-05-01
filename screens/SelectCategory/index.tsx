@@ -11,12 +11,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useContext } from "react";
 import { DataContextType } from "../../types/context";
 import { DataContext } from "../../contexts/DataContext";
+import { Image } from "expo-image";
 
 export default function SelectCategory({ navigation }: any) {
   const { selectedChapter } = useContext(DataContext) as DataContextType;
 
   const handleSelectionClick = (selectedTab: string) => {
-    switch(selectedTab){
+    switch (selectedTab) {
       case "Videos":
         navigation.navigate("Videos");
         break;
@@ -92,31 +93,60 @@ export default function SelectCategory({ navigation }: any) {
         <FlatList
           data={["1"]}
           renderItem={() => (
-            <View style={{ paddingBottom: 400 }}>
+            <View
+              style={{
+                padding: 20,
+                paddingTop: 10,
+                borderRadius: 20,
+                backgroundColor: Color.cardBg,
+                borderColor: Color.border,
+                borderWidth: 1,
+                marginTop: 20,
+              }}
+            >
               <FlatList
                 data={selectedChapter?.chapterComponent}
                 renderItem={({ item, index }) => (
-                  <TouchableOpacity
-                    onPress={() => handleSelectionClick(item)}
-                    activeOpacity={0.5}
-                    key={index}
+                  <View
                     style={{
-                      marginTop: 20,
                       flexDirection: "row",
                       alignItems: "center",
                       gap: 10,
                     }}
                   >
-                    <Text
+                    <TouchableOpacity
+                      onPress={() => handleSelectionClick(item)}
+                      activeOpacity={0.5}
+                      key={index}
                       style={{
-                        color: Color.buttonBg,
-                        fontWeight: "500",
-                        fontSize: FontSize.medium11pxMed_size,
+                        marginTop: 20,
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 10,
                       }}
                     >
-                      {item}
-                    </Text>
-                  </TouchableOpacity>
+                      <Image
+                        source={{
+                          uri: selectedChapter?.chapterIcon,
+                        }}
+                        contentFit="cover"
+                        style={{
+                          width: 46,
+                          height: 46,
+                          borderRadius: 6,
+                        }}
+                      />
+                      <Text
+                        style={{
+                          color: Color.buttonBg,
+                          fontWeight: "500",
+                          fontSize: FontSize.medium11pxMed_size,
+                        }}
+                      >
+                        {item}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
                 )}
               />
             </View>

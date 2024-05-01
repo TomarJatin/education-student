@@ -44,8 +44,6 @@ export default function Courses({ navigation }: any) {
   const [discountPrice, setDiscountPrice] = useState("");
   const [communityDisplay, setCommunityDisplay] = useState(false);
 
-
-
   const dummyCourses = [
     {
       _id: "1",
@@ -66,10 +64,6 @@ export default function Courses({ navigation }: any) {
       courseIcon: "https://example.com/course3.jpg",
     },
   ];
-
-
-
-
 
   const handleCreateCourse = async () => {
     console.log("clicked");
@@ -239,7 +233,6 @@ export default function Courses({ navigation }: any) {
             renderItem={() => (
               <View style={{ paddingBottom: 200 }}>
                 {/* Create Card */}
-             
 
                 {/* Manage Card */}
                 <View
@@ -266,7 +259,7 @@ export default function Courses({ navigation }: any) {
                         fontWeight: "600",
                       }}
                     >
-                       Courses
+                      Courses
                     </Text>
                     <Text
                       style={{
@@ -331,14 +324,14 @@ export default function Courses({ navigation }: any) {
                             gap: 10,
                           }}
                         >
-                         <Text
+                          <Text
                             style={{
                               color: Color.buttonBg,
                               fontWeight: "500",
                               fontSize: FontSize.medium11pxMed_size,
                             }}
                           >
-                           01
+                            01
                           </Text>
                         </View>
                       </TouchableOpacity>

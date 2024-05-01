@@ -31,6 +31,8 @@ import SelectCategory from "./SelectCategory";
 import Assignments from "./Assignments";
 import Notes from "./Notes";
 import Videos from "./Videos";
+import Assignment1 from "./Assignment1";
+import SingleCorrect from "./TaskScreen";
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -39,7 +41,7 @@ export default function Route() {
 
   useEffect(() => {
     checkRefreshToken(setAuth);
-  }, [])
+  }, []);
 
   return (
     <NavigationContainer>
@@ -100,7 +102,7 @@ export default function Route() {
             component={Tags}
             options={{ headerShown: false }}
           />
-           <Stack.Screen
+          <Stack.Screen
             name="Testscreen"
             component={Testscreen}
             options={{ headerShown: false }}
@@ -126,41 +128,50 @@ export default function Route() {
             options={{ headerShown: false }}
           />
           <Stack.Screen
-          name="Analytics"
-          component={Analytics}
-          options={{headerShown:false}}
+            name="Analytics"
+            component={Analytics}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
-          name="VideoComponent"
-          component={VideoComponent}
-          options={{headerShown:false}}
+            name="VideoComponent"
+            component={VideoComponent}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
-          name="SelectCategory"
-          component={SelectCategory}
-          options={{headerShown:false}}
+            name="SelectCategory"
+            component={SelectCategory}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
-          name="More"
-          component={More}
-          options={{headerShown:false}}
+            name="More"
+            component={More}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
-          name="Assignments"
-          component={Assignments}
-          options={{headerShown:false}}
+            name="Assignments"
+            component={Assignments}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
-          name="Notes"
-          component={Notes}
-          options={{headerShown:false}}
+            name="Assignment1"
+            component={Assignment1}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
-          name="Videos"
-          component={Videos}
-          options={{headerShown:false}}
+            name="SingleCorrect"
+            component={SingleCorrect}
+            options={{ headerShown: false }}
           />
-
+          <Stack.Screen
+            name="Notes"
+            component={Notes}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Videos"
+            component={Videos}
+            options={{ headerShown: false }}
+          />
         </Stack.Navigator>
       ) : (
         <Stack.Navigator initialRouteName="Home">

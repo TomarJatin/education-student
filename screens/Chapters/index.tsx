@@ -268,6 +268,7 @@ export default function Chapters({ navigation }: any) {
                     style={{
                       padding: 20,
                       borderRadius: 20,
+                      backgroundColor: Color.cardBg,
                       borderColor: Color.border,
                       borderWidth: 1,
                       marginTop: 20,
