@@ -6,6 +6,8 @@ export interface AssignmentsType {
   assignmentSolution: string;
   assignmentType: string;
   assignmentUIType: string;
+  startTime: string;
+  endTime: string;
   chapterId: string;
   questions: any[];
   status: number;

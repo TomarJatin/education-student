@@ -14,13 +14,17 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { DataContextType } from "../../types/context";
 import { DataContext } from "../../contexts/DataContext";
 import { AssignmentsType } from "../../types/assignments";
 import { QuestionType } from "../../types/questions";
 import { getAllAssignments } from "../../utils/api/assignments";
-import { getAllQuestions } from "../../utils/api/question";
+import {
+  getAllQuestions,
+  getAllQuestions2,
+  getQuestionById,
+} from "../../utils/api/question";
 import AssignmentsComponent from "../../components/Assignment/Assignments";
 import AddQuestions from "../../components/Assignment/AddQuestions";
 import { Image } from "expo-image";
@@ -30,68 +34,110 @@ import AnswerCard from "../../components/common/AnswerCard";
 import { ScrollView, TextInput } from "react-native-gesture-handler";
 import { useHeaderHeight } from "@react-navigation/elements";
 import UploadAndPreview from "../../components/common/UploadPreview";
+import BottomNavTasks from "../../components/common/BottomNavTask";
+import { useIsFocused } from "@react-navigation/native";
 
 const NUM_COLUMNS = 7;
 export default function SingleCorrect({ navigation }: any) {
   const [showAllItems, setShowAllItems] = useState(false);
   const [numItemsToShow, setNumItemsToShow] = useState(6);
+  const [allQuestions, setAllQuestions] = useState<QuestionType[]>([]);
+  const [selectedQuestion, setSelectedQuestion] = useState<any>("");
+  const [answerList, setAnswerList] = useState([]);
+  const answerList2: any = useRef([]);
   const height = useHeaderHeight();
   const toggleItems = () => {
     setShowAllItems(!showAllItems);
     if (showAllItems) {
       setNumItemsToShow(7); // Reset to initial number of items
     } else {
-      setNumItemsToShow(QuestionList.length); // Show all items
+      setNumItemsToShow(Number(selectedAssignment?.questions?.length)); // Show all items
     }
   };
 
-  const QuestionList = [
-    { _id: 1, label: "00", status: 3 },
-    { _id: 2, label: "01", status: 1 },
-    { _id: 3, label: "02", status: 2 },
-    { _id: 4, label: "03", status: 0 },
-    { _id: 5, label: "04", status: 0 },
-    { _id: 6, label: "05", status: 0 },
-    { _id: 7, label: "06", status: 0 },
-    { _id: 8, label: "07", status: 0 },
-    { _id: 9, label: "08", status: 0 },
-    { _id: 10, label: "09", status: 0 },
-    { _id: 11, label: "010", status: 0 },
-    { _id: 12, label: "011", status: 0 },
-    { _id: 13, label: "012", status: 0 },
-    { _id: 14, label: "013", status: 0 },
-    { _id: 15, label: "014", status: 0 },
-    { _id: 16, label: "015", status: 0 },
-    { _id: 17, label: "016", status: 0 },
-    { _id: 18, label: "017", status: 0 },
-    { _id: 19, label: "018", status: 0 },
-    { _id: 20, label: "019", status: 0 },
-    { _id: 21, label: "020", status: 0 },
-    { _id: 22, label: "021", status: 0 },
-    { _id: 23, label: "022", status: 0 },
-    { _id: 24, label: "023", status: 0 },
-    { _id: 25, label: "024", status: 0 },
-    { _id: 26, label: "025", status: 0 },
-    { _id: 27, label: "026", status: 0 },
-    { _id: 28, label: "027", status: 0 },
-    { _id: 29, label: "028", status: 0 },
-    { _id: 30, label: "029", status: 0 },
-  ];
+  const {
+    selectedChapter,
+    selectedAssignment,
+    selectedTest,
+    setSelectedAssignment,
+  } = useContext(DataContext) as DataContextType;
 
-  const QuestionItem: React.FC<any> = ({ label, status }: any) => {
+  const handleSubmit = () => {
+    console.log("anslist", answerList2);
+  };
+
+  const fetchAllQuestions = async () => {
+    if (selectedAssignment) {
+      const response = await getAllQuestions2(
+        selectedAssignment?._id,
+        10,
+        0,
+        "asc",
+        10,
+        "assignmentId"
+      );
+      setAllQuestions(response);
+      setSelectedQuestion(response[0]);
+    } else if (selectedTest) {
+      getAllQuestions(
+        selectedTest?._id,
+        10,
+        0,
+        "asc",
+        10,
+        setAllQuestions,
+        "testId"
+      );
+    }
+  };
+
+  const isFocused = useIsFocused();
+  console.log("logger");
+
+  useEffect(() => {
+    if (isFocused) {
+      fetchAllQuestions();
+    }
+  }, [isFocused]);
+
+  const handleQuestionItemPress = async (questionId: string) => {
+    try {
+      const response = allQuestions.find(
+        (item: any) => item._id === questionId
+      );
+      setSelectedQuestion(response);
+    } catch (err) {
+      console.log("ERR", err);
+    }
+  };
+
+  const QuestionItem: React.FC<any> = ({
+    label,
+    value,
+    status,
+    isActive,
+  }: any) => {
+    console.log("isActive", isActive);
     return (
-      <View
-        style={{
-          backgroundColor: getStatusColor(status),
-          ...styles.item,
-        }}
-      >
-        <TouchableOpacity>
-          <Text style={{ color: status ? "#ffffff" : "", ...styles.itemText }}>
+      <TouchableOpacity onPress={() => handleQuestionItemPress(value)}>
+        <View
+          style={{
+            backgroundColor: isActive
+              ? getStatusColor(2)
+              : getStatusColor(status),
+            ...styles.item,
+          }}
+        >
+          <Text
+            style={{
+              color: status || isActive ? "#ffffff" : "",
+              ...styles.itemText,
+            }}
+          >
             {label}
           </Text>
-        </TouchableOpacity>
-      </View>
+        </View>
+      </TouchableOpacity>
     );
   };
 
@@ -148,10 +194,15 @@ export default function SingleCorrect({ navigation }: any) {
         </View>
         <View style={styles.container}>
           <FlatList
-            data={QuestionList.slice(0, numItemsToShow)}
+            data={allQuestions?.slice(0, numItemsToShow)}
             contentContainerStyle={styles.itemContainer}
-            renderItem={({ item }: any) => (
-              <QuestionItem status={item.status} label={item.label} />
+            renderItem={({ item, index }: any) => (
+              <QuestionItem
+                status={0}
+                isActive={selectedQuestion._id === item._id}
+                value={item?._id}
+                label={index + 1}
+              />
             )}
             keyExtractor={(item) => item._id.toString()}
             numColumns={NUM_COLUMNS}
@@ -183,21 +234,28 @@ export default function SingleCorrect({ navigation }: any) {
             <ScrollView>
               <View style={{ paddingVertical: 20, paddingHorizontal: 20 }}>
                 <QuestionCard
-                  imgSrc=""
-                  question="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,"
-                  explaination={true}
+                  imgSrc={selectedQuestion?.question?.image}
+                  question={selectedQuestion?.question?.text}
+                  explaination={selectedQuestion?.askForExplaination}
                   cardTitle="Question"
                 />
               </View>
               <View style={{ paddingVertical: 20, paddingHorizontal: 20 }}>
-                <AnswerCard answerType={"SingleCorrect"} />
+                <AnswerCard
+                  questionId={selectedQuestion._id}
+                  answerList={answerList2}
+                  setAnswer={setAnswerList}
+                  options={selectedQuestion?.options}
+                  answerType={selectedQuestion?.questionType}
+                />
               </View>
-              <View>
+              {/* <View>
                 <UploadAndPreview />
-              </View>
+              </View> */}
             </ScrollView>
           </View>
         </KeyboardAvoidingView>
+        <BottomNavTasks onSubmit={handleSubmit} />
       </View>
     </SafeAreaView>
   );
@@ -227,13 +285,13 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingHorizontal: 10,
     flexDirection: "row",
-    // flexWrap: "wrap",
+    flexWrap: "wrap",
     borderBottomWidth: 2,
     borderBlockColor: "#F4F4F4",
   },
   itemContainer: {
     width: "100%",
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "flex-start",
     alignItems: "flex-start",
   },

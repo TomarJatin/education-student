@@ -13,7 +13,10 @@ import { DataContextType } from "../../types/context";
 import { DataContext } from "../../contexts/DataContext";
 import { AssignmentsType } from "../../types/assignments";
 import { QuestionType } from "../../types/questions";
-import { getAllAssignments } from "../../utils/api/assignments";
+import {
+  getAllAssignments,
+  initiateAssignment,
+} from "../../utils/api/assignments";
 import { getAllQuestions } from "../../utils/api/question";
 import AssignmentsComponent from "../../components/Assignment/Assignments";
 import AddQuestions from "../../components/Assignment/AddQuestions";
@@ -22,9 +25,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import StatusCard from "../../components/common/StatusCard";
 
 export default function Assignment1({ navigation }: any) {
-  const { selectedChapter, selectedAssignment, selectedTest } = useContext(
-    DataContext
-  ) as DataContextType;
+  const { selectedChapter, selectedAssignment, selectedTest, course } =
+    useContext(DataContext) as DataContextType;
   const [tab, setTab] = useState("Assignment");
   const [assignmentName, setAssignmentName] = useState("");
   const [assignmentGrading, setAssignmentGrading] = useState(false);
@@ -33,32 +35,6 @@ export default function Assignment1({ navigation }: any) {
   const [allAssignments, setAllAssignments] = useState<AssignmentsType[]>([]);
   const [allQuestions, setAllQuestions] = useState<QuestionType[]>([]);
   const [selectedCurrQuestionIdx, setSelectedCurrQuestionIdx] = useState(-1);
-
-  console.log("Assignment selected", selectedAssignment);
-
-  const fetchAllQuestions = () => {
-    if (selectedAssignment) {
-      getAllQuestions(
-        selectedAssignment?._id,
-        10,
-        0,
-        "asc",
-        10,
-        setAllQuestions,
-        "assignmentId"
-      );
-    } else if (selectedTest) {
-      getAllQuestions(
-        selectedTest?._id,
-        10,
-        0,
-        "asc",
-        10,
-        setAllQuestions,
-        "testId"
-      );
-    }
-  };
 
   const fetchAllAssignments = () => {
     if (!selectedChapter) {
@@ -77,6 +53,8 @@ export default function Assignment1({ navigation }: any) {
   //   useEffect(() => {
   //     fetchAllAssignments();
   //   }, []);
+
+  console.log("selected Assignment", selectedAssignment);
 
   return (
     <SafeAreaView>
@@ -134,10 +112,28 @@ export default function Assignment1({ navigation }: any) {
           btnLabel="Start"
           cardTitle={selectedAssignment?.assignmentName}
           contentText={selectedAssignment?.totalMarks}
+          startTime={selectedAssignment?.startTime}
+          endTime={selectedAssignment?.endTime}
           imgSrc="dada"
           key={"1"}
           action={() => {
-            navigation.navigate("SingleCorrect");
+            (async function () {
+              try {
+                const body = {
+                  courseId: course?._id,
+                  assignementId: selectedAssignment?._id,
+                  type: "assignment", // assignment or test
+                  submission: [],
+                };
+                const response = await initiateAssignment(body);
+                console.log("response", response);
+                if (response?.status === 200) {
+                  navigation.navigate("SingleCorrect");
+                }
+              } catch (err) {
+                console.log(err);
+              }
+            })();
           }}
           cardStatus={selectedAssignment?.status.toString() || ""}
           cardTime={selectedAssignment?.assignmentDuration}

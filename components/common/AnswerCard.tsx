@@ -1,38 +1,64 @@
-import { View, Text, StyleSheet, Button, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
 import { Color, FontSize } from "../../GlobalStyles";
 import { TextInput } from "react-native-gesture-handler";
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Image } from "expo-image";
+import React from "react";
+import { RichEditor } from "react-native-pell-rich-editor";
 
-type AnswerType = "SingleCorrect" | "MultiCorrect" | "FillBlanks";
+type AnswerType = "SCQ" | "MCQ" | "fillInTheBlanks";
 
 type AnswerCardProps = {
   answerType: AnswerType;
+  options: any;
+  answerList: any;
+  setAnswer?: any;
+  questionId?: any;
 };
-const AnswerCard: React.FC<AnswerCardProps> = () => {
-  const [selected, setSelected] = useState();
+const windowWidth = Dimensions.get("window").width;
+const AnswerCard: React.FC<AnswerCardProps> = ({
+  answerType,
+  options,
+  answerList,
+  setAnswer,
+  questionId = "",
+}) => {
   const SingleCorrect = () => {
-    const choiceList = [
-      {
-        id: 1,
-        value:
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-      },
-      {
-        id: 2,
-        value:
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-      },
-      {
-        id: 3,
-        value:
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-      },
-      {
-        id: 4,
-        value:
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-      },
-    ];
+    let answerFound = answerList.current?.find(
+      (item: any) => item.questionId === questionId
+    );
+    const [selected, setSelected] = useState(
+      answerFound ? answerFound.answer : ""
+    );
+    const richTextEditor: any = useRef();
+
+    useEffect(() => {
+      // Update the answer ref
+      const existingAnswerIndex = answerList.current.findIndex(
+        (item: any) => item.questionId === questionId
+      );
+
+      const newAnswer = {
+        questionId: questionId,
+        answer: selected,
+      };
+
+      if (existingAnswerIndex !== -1) {
+        // If the question ID exists, update the existing object
+        answerList.current[existingAnswerIndex] = newAnswer;
+      } else {
+        // If the question ID doesn't exist, add the new answer object
+        answerList.current.push(newAnswer);
+      }
+    }, [selected]);
+
     return (
       <View style={styles.cardContainer}>
         <View
@@ -55,46 +81,94 @@ const AnswerCard: React.FC<AnswerCardProps> = () => {
             Single Correct
           </Text>
         </View>
-        {choiceList.map((item, idx: any) => (
-          <TouchableOpacity key={idx} onPress={() => setSelected(idx)}>
-            <Text
-              style={{
-                ...styles.cardInfo,
-                backgroundColor: selected === idx ? "#5CA0F0" : "#ffffff",
-                color: selected === idx ? "#ffffff" : "#000000",
-              }}
-            >
-              {item.value}
-            </Text>
+
+        {options.map((item: any, idx: any) => (
+          <TouchableOpacity key={idx} onPress={() => setSelected(item.text)}>
+            {item.image && (
+              <Image style={styles.cardImage} source={{ uri: item.image }} />
+            )}
+            {item.text && (
+              <RichEditor
+                disabled={true}
+                ref={richTextEditor}
+                editorStyle={{
+                  ...styles.cardInfo,
+                  backgroundColor:
+                    selected === item.text ? "#5CA0F0" : "#ffffff",
+                  color: selected === item.text ? "#ffffff" : "#000000",
+                }}
+                initialContentHTML={item.text} // Set initial HTML content
+              />
+            )}
           </TouchableOpacity>
         ))}
       </View>
     );
   };
-  const MultiCorrect = () => {
-    const [selectedList, setSelectedList] = useState<any>([]);
-    const choiceList = [
-      {
-        id: 1,
-        value:
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+
+  const styles = StyleSheet.create({
+    cardContainer: {
+      backgroundColor: "rgba(135, 206, 250, 0.1)",
+      borderRadius: 20,
+      padding: 20,
+      marginBottom: 15,
+    },
+    cardImage: {
+      height: 100, // Set height as per your requirement
+      width: "100%",
+    },
+    cardInfo: {
+      backgroundColor: "#ffffff",
+      color: "#000000",
+      fontSize: 11,
+      paddingVertical: 10,
+      paddingHorizontal: 10,
+      borderRadius: 8,
+      marginBottom: 10,
+    },
+  });
+
+  const MultiCorrect = React.memo(({ options }: any) => {
+    let answerFound = answerList.current?.find(
+      (item: any) => item.questionId === questionId
+    );
+    const [selectedList, setSelectedList] = useState<any>(
+      answerFound ? answerFound.answer.split(" ") : []
+    );
+
+    const handleSelect = useCallback(
+      (idx: any) => {
+        setSelectedList((prev: any) => {
+          if (prev.includes(idx)) {
+            return prev.filter((item: any) => item !== idx);
+          } else {
+            return [...prev, idx];
+          }
+        });
       },
-      {
-        id: 2,
-        value:
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-      },
-      {
-        id: 3,
-        value:
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-      },
-      {
-        id: 4,
-        value:
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-      },
-    ];
+      [setSelectedList]
+    );
+
+    useEffect(() => {
+      // Update the answer ref
+      const existingAnswerIndex = answerList.current.findIndex(
+        (item: any) => item.questionId === questionId
+      );
+
+      const newAnswer = {
+        questionId: questionId,
+        answer: selectedList.join(" "),
+      };
+
+      if (existingAnswerIndex !== -1) {
+        // If the question ID exists, update the existing object
+        answerList.current[existingAnswerIndex] = newAnswer;
+      } else {
+        // If the question ID doesn't exist, add the new answer object
+        answerList.current.push(newAnswer);
+      }
+    }, [selectedList]);
+
     return (
       <View style={styles.cardContainer}>
         <View
@@ -114,40 +188,48 @@ const AnswerCard: React.FC<AnswerCardProps> = () => {
               fontSize: 12,
             }}
           >
-            MultiCorrect Correct
+            Multiple Correct
           </Text>
         </View>
-        {choiceList.map((item, idx: any) => (
+        {options.map((item: any, idx: any) => (
           <TouchableOpacity
+            style={{ marginTop: 30 }}
             key={idx}
-            onPress={() =>
-              setSelectedList((prev: any) => {
-                if (prev.includes(idx)) {
-                  return prev.filter((item: any) => item != idx);
-                } else {
-                  return [...prev, idx];
-                }
-              })
-            }
+            onPress={() => handleSelect(item.text)}
           >
-            <Text
-              style={{
-                ...styles.cardInfo,
-                backgroundColor: selectedList.includes(idx)
-                  ? "#5CA0F0"
-                  : "#ffffff",
-                color: selectedList.includes(idx) ? "#ffffff" : "#000000",
-              }}
-            >
-              {item.value}
-            </Text>
+            {item.image && (
+              <Image style={styles.cardImage} source={{ uri: item.image }} />
+            )}
+            {item.text && (
+              <RichEditor
+                disabled={true}
+                initialContentHTML={item.text} // Set initial HTML content
+                editorStyle={{
+                  ...styles.cardInfo,
+                  backgroundColor: selectedList.includes(item.text)
+                    ? "#5CA0F0"
+                    : "#ffffff",
+                  color: selectedList.includes(idx) ? "#ffffff" : "#000000",
+                }} // Style for the editor
+                // Handle change event
+              />
+            )}
           </TouchableOpacity>
         ))}
       </View>
     );
-  };
+  });
 
   const FillBlanksSingle = () => {
+    let answerFound = answerList.current?.find(
+      (item: any) => item.questionId === questionId
+    );
+    const [selected, setSelected] = useState("");
+
+    // useEffect(() => {
+    //   // Update the answer ref
+
+    // }, [selected]);
     const styles = StyleSheet.create({
       cardContainer: {
         backgroundColor: "rgba(135, 206, 250, 0.1)",
@@ -184,7 +266,29 @@ const AnswerCard: React.FC<AnswerCardProps> = () => {
           </Text>
         </View>
         <View>
-          <TextInput style={styles.input} />
+          <TextInput
+            value={selected}
+            onBlur={() => {
+              const existingAnswerIndex = answerList.current.findIndex(
+                (item: any) => item.questionId === questionId
+              );
+
+              const newAnswer = {
+                questionId: questionId,
+                answer: selected,
+              };
+
+              if (existingAnswerIndex !== -1) {
+                // If the question ID exists, update the existing object
+                answerList.current[existingAnswerIndex] = newAnswer;
+              } else {
+                // If the question ID doesn't exist, add the new answer object
+                answerList.current.push(newAnswer);
+              }
+            }}
+            onChangeText={(value: any) => setSelected(value)}
+            style={styles.input}
+          />
         </View>
       </View>
     );
@@ -278,14 +382,26 @@ const AnswerCard: React.FC<AnswerCardProps> = () => {
     );
   };
 
-  return (
-    <View>
-      <SingleCorrect />
-      <MultiCorrect />
-      <FillBlanksMulti />
-      <FillBlanksSingle />
-    </View>
-  );
+  switch (answerType) {
+    case "MCQ":
+      return (
+        <View>
+          <MultiCorrect options={options} />
+        </View>
+      );
+    case "SCQ":
+      return (
+        <View>
+          <SingleCorrect />
+        </View>
+      );
+    case "fillInTheBlanks":
+      return (
+        <View>
+          <FillBlanksSingle />
+        </View>
+      );
+  }
 };
 export default AnswerCard;
 
@@ -319,5 +435,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 20,
     marginBottom: 15,
+  },
+  cardImage: {
+    height: windowWidth * (50 / 100),
+    width: "100%",
+    borderRadius: 8,
   },
 });

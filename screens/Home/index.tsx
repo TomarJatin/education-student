@@ -23,6 +23,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { DataContextType } from "../../types/context";
 import Navbar from "../../components/Navbar";
 import { getBannerByStudent } from "../../utils/api/banners";
+import BottomNavTasks from "../../components/common/BottomNavTask";
 export default function Home({ navigation }: any) {
   const arr = [1, 2, 3, 4, 5, 6];
   const { setCourseScreen } = useContext(DataContext) as DataContextType;

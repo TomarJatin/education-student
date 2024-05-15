@@ -1,6 +1,7 @@
 import { View, Text, Pressable, StyleSheet, Dimensions } from "react-native";
 import { Image } from "expo-image";
-import { MaterialIcons } from "@expo/vector-icons";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import React, { useState } from "react";
 import { Color, FontSize } from "../../GlobalStyles";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -11,6 +12,7 @@ type QuestionCardProps = {
   cardTime?: string | undefined;
   question: string | undefined;
   explaination: boolean | undefined;
+  explainationText?: string | undefined;
   action?: () => void;
 };
 const windowWidth = Dimensions.get("window").width;
@@ -20,9 +22,11 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   cardTitle,
   cardTime,
   question,
-  explaination = true,
+  explaination = false,
+  explainationText = " Provide Explaination for this Question",
 }) => {
-  const [explainationPopup, setExplainationPopup] = useState(false);
+  console.log("imagesrc", imgSrc);
+  const [explainationPopup, setExplainationPopup] = useState(explaination);
   function toggleExplainationPopup() {
     setExplainationPopup(!explainationPopup);
   }
@@ -33,14 +37,11 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
         {/* <Text style={styles.cardTime}>{cardTime}</Text> */}
       </View>
       <View style={styles.card}>
-        <Image
-          style={styles.cardImage}
-          source={require("../../assets/banner.png")}
-        />
+        <Image style={styles.cardImage} source={{ uri: imgSrc }} />
         <View style={styles.infoContainer}>
           <TouchableOpacity onPress={toggleExplainationPopup}>
             <View style={styles.info}>
-              <MaterialIcons name="error" size={20} color="red" />
+              <FontAwesome name="warning" size={15} color="red" />
             </View>
           </TouchableOpacity>
         </View>
@@ -58,7 +59,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
                   alignSelf: "center",
                 }}
               >
-                <MaterialIcons name="error" size={20} color="red" />
+                <FontAwesome name="warning" size={15} color="red" />
               </View>
               <View
                 style={{
@@ -68,10 +69,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
                   width: "70%",
                 }}
               >
-                <Text style={{ fontSize: 11 }}>
-                  Lorem ipsum dipsum vipsum lipsum gipsum Lorem ipsum dipsum
-                  vipsum lipsum gipsum Lorem ipsum dipsum vipsum Lorem ipsum
-                </Text>
+                <Text style={{ fontSize: 11 }}>{explainationText}</Text>
               </View>
             </View>
           </View>

@@ -4,7 +4,7 @@ import Toast from "react-native-simple-toast";
 import { BaseURL } from ".";
 
 export const handleAddAssignments = async (data: any) => {
-    console.log("adding video", JSON.stringify(data));
+  console.log("adding video", JSON.stringify(data));
   const accessToken = await AsyncStorage.getItem("accessToken");
   axios({
     method: "post",
@@ -18,7 +18,7 @@ export const handleAddAssignments = async (data: any) => {
   })
     .then((res) => {
       console.log("res: ", res.data);
-      if(res.data?.data){
+      if (res.data?.data) {
         Toast.show(JSON.stringify(res.data?.data), Toast.LONG);
       }
     })
@@ -27,7 +27,54 @@ export const handleAddAssignments = async (data: any) => {
     });
 };
 
-export const handleUpdateAssignments = async (data: any, assignmentId: string) => {
+export const handleUpdateStudentAssignments = async (
+  data: any,
+  assignmentId: string
+) => {
+  try {
+    const accessToken = await AsyncStorage.getItem("accessToken");
+    const url =
+      BaseURL + "/api/assignment/instructor/assignment/" + assignmentId;
+    const response = await axios.patch(url, data, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + accessToken,
+      },
+    });
+    if (response.status === 200) {
+      Toast.show("Assignment Submitted successfully", Toast.LONG);
+      return response.data?.data;
+    }
+  } catch (err: any) {
+    console.log(err.response.message);
+  }
+};
+
+export const initiateAssignment = async (data: any) => {
+  try {
+    const accessToken = await AsyncStorage.getItem("accessToken");
+    const url =
+      BaseURL + "/api/courseManagement/sudentAssignment?isSubmitted=false";
+    const response = await axios.post(url, data, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + accessToken,
+      },
+    });
+    if (response.status === 200) {
+      Toast.show("Assignment Started successfully", Toast.LONG);
+      return response;
+    }
+  } catch (err: any) {
+    console.log("ERROR RM");
+    console.log("RM ERR", err);
+  }
+};
+
+export const handleUpdateAssignments = async (
+  data: any,
+  assignmentId: string
+) => {
   console.log("data: ", JSON.stringify(data));
   console.log("videoId: ", assignmentId);
   const accessToken = await AsyncStorage.getItem("accessToken");
@@ -43,20 +90,20 @@ export const handleUpdateAssignments = async (data: any, assignmentId: string) =
   })
     .then((res) => {
       console.log("res: ", res.data);
-      if(res.data?.data){
+      if (res.data?.data) {
         Toast.show(JSON.stringify(res.data?.data), Toast.LONG);
       }
     })
     .catch((err) => {
       console.log("base url err: ", err?.response?.data);
-      if(err?.response?.data?.data){
+      if (err?.response?.data?.data) {
         console.log(err.response.data.data);
       }
     });
 };
 
 export const handleDeleteAssignments = async (assignmentId: string) => {
-  console.log("delete video id", assignmentId)
+  console.log("delete video id", assignmentId);
   const accessToken = await AsyncStorage.getItem("accessToken");
   axios({
     method: "delete",
@@ -68,7 +115,7 @@ export const handleDeleteAssignments = async (assignmentId: string) => {
   })
     .then((res) => {
       console.log("res: ", res.data);
-      if(res.data?.data){
+      if (res.data?.data) {
         Toast.show(JSON.stringify(res.data?.data), Toast.LONG);
       }
     })
@@ -78,7 +125,7 @@ export const handleDeleteAssignments = async (assignmentId: string) => {
 };
 
 export const getAllAssignments = async (
-    chapterId: string,
+  chapterId: string,
   limit: number,
   skip: number,
   order: string,
@@ -96,12 +143,12 @@ export const getAllAssignments = async (
   })
     .then((res) => {
       console.log("res: ", res.data);
-      if(res.data?.data){
+      if (res.data?.data) {
         Toast.show(JSON.stringify(res.data?.data), Toast.LONG);
       }
-     if(res.data?.data){
-        setAllVideos([...res.data.data])
-     }
+      if (res.data?.data) {
+        setAllVideos([...res.data.data]);
+      }
     })
     .catch((err) => {
       console.log("base url err: ", err?.response?.data);
@@ -120,7 +167,7 @@ export const getAssignmentsById = async (assignemntId: string) => {
   })
     .then((res) => {
       console.log("res: ", res.data);
-      if(res.data?.data){
+      if (res.data?.data) {
         Toast.show(JSON.stringify(res.data?.data), Toast.LONG);
       }
     })
